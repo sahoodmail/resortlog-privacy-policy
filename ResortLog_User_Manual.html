@@ -1,0 +1,1887 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ResortLog — User Manual & SOP</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet" />
+  <style>
+    /* ─── Design tokens — Light (matches app LightColors) ────────── */
+    :root {
+      --primary: #041534;
+      --primary-light: #1B2A4A;
+      --secondary: #745A27;
+      --secondary-bg: #FFF0CC;
+      --secondary-text: #3D2A00;
+      --bg: #FAF9F6;
+      --surface: #FFFFFF;
+      --surface-var: #F4F3F0;
+      --on-surface: #041534;
+      --on-surface-var: #45464E;
+      --outline: #78787A;
+      --outline-var: #C8C7C4;
+      --error: #C0392B;
+      --error-bg: #FFEDEA;
+      --error-text: #8C1B12;
+      --green: #1B7F4B;
+      --green-bg: #E8F8EF;
+      --green-text: #0D5C32;
+      --gold: #8B5E00;
+      --gold-bg: #FFF0CC;
+      --gold-text: #3D2A00;
+      --navy-bg: #D0E4FF;
+      --navy-text: #041534;
+      --shadow: rgba(4, 21, 52, 0.10);
+      /* sidebar */
+      --sidebar-bg: #041534;
+      --sidebar-link: rgba(255, 255, 255, 0.70);
+      --sidebar-link-hover-bg: rgba(255, 255, 255, 0.06);
+      --sidebar-active-bg: rgba(255, 255, 255, 0.10);
+      --sidebar-border: rgba(255, 255, 255, 0.10);
+      --sidebar-section: rgba(255, 255, 255, 0.35);
+      --sidebar-active-border: #745A27;
+      /* toggle btn */
+      --toggle-bg: rgba(255, 255, 255, 0.12);
+      --toggle-color: rgba(255, 255, 255, 0.80);
+      --toggle-hover: rgba(255, 255, 255, 0.20);
+    }
+
+    /* ─── Design tokens — Dark (matches app DarkColors) ───────────── */
+    [data-theme="dark"] {
+      --primary: #8AB4E8;
+      --primary-light: #1B2A4A;
+      --secondary: #E8C27A;
+      --secondary-bg: #5A4100;
+      --secondary-text: #FFE0A0;
+      --bg: #0D1220;
+      --surface: #121A28;
+      --surface-var: #1B2535;
+      --on-surface: #E0E8F4;
+      --on-surface-var: #A0B0C8;
+      --outline: #5A6E88;
+      --outline-var: #2E3D52;
+      --error: #FFB4AB;
+      --error-bg: #3E1A15;
+      --error-text: #E69A8D;
+      --green: #6EE7A0;
+      --green-bg: #182A20;
+      --green-text: #6EE7A0;
+      --gold: #E8C27A;
+      --gold-bg: #3D2E00;
+      --gold-text: #E8C27A;
+      --navy-bg: #0E1E38;
+      --navy-text: #8AB4E8;
+      --shadow: rgba(0, 0, 0, 0.40);
+      /* sidebar */
+      --sidebar-bg: #0A1020;
+      --sidebar-link: rgba(224, 232, 244, 0.65);
+      --sidebar-link-hover-bg: rgba(138, 180, 232, 0.08);
+      --sidebar-active-bg: rgba(138, 180, 232, 0.14);
+      --sidebar-border: rgba(255, 255, 255, 0.06);
+      --sidebar-section: rgba(160, 176, 200, 0.35);
+      --sidebar-active-border: #E8C27A;
+      /* toggle btn */
+      --toggle-bg: rgba(138, 180, 232, 0.14);
+      --toggle-color: #8AB4E8;
+      --toggle-hover: rgba(138, 180, 232, 0.24);
+    }
+
+    /* ─── Reset & base ────────────────────────────────────────────── */
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      font-size: 16px;
+    }
+
+    body {
+      font-family: 'Manrope', sans-serif;
+      background: var(--bg);
+      color: var(--on-surface);
+      line-height: 1.7;
+      display: flex;
+    }
+
+    /* ─── Sidebar ─────────────────────────────────────────────────── */
+    #sidebar {
+      width: 280px;
+      min-width: 280px;
+      height: 100vh;
+      position: sticky;
+      top: 0;
+      overflow-y: auto;
+      background: var(--sidebar-bg);
+      color: #fff;
+      padding: 28px 0 40px;
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      transition: background 0.25s;
+    }
+
+    #sidebar .brand {
+      padding: 0 24px 20px;
+      border-bottom: 1px solid var(--sidebar-border);
+      margin-bottom: 12px;
+    }
+
+    #sidebar .brand h1 {
+      font-size: 20px;
+      font-weight: 800;
+      color: #fff;
+      letter-spacing: -0.3px;
+    }
+
+    #sidebar .brand p {
+      font-size: 12px;
+      color: rgba(255, 255, 255, 0.55);
+      margin-top: 3px;
+      font-weight: 500;
+    }
+
+    #sidebar nav a {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 24px;
+      text-decoration: none;
+      color: var(--sidebar-link);
+      font-size: 13.5px;
+      font-weight: 500;
+      transition: background 0.15s, color 0.15s;
+      border-left: 3px solid transparent;
+    }
+
+    #sidebar nav a:hover {
+      background: var(--sidebar-link-hover-bg);
+      color: #fff;
+    }
+
+    #sidebar nav a.active {
+      background: var(--sidebar-active-bg);
+      color: #fff;
+      border-left-color: var(--sidebar-active-border);
+    }
+
+    #sidebar nav .section-head {
+      padding: 16px 24px 5px;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      color: var(--sidebar-section);
+      text-transform: uppercase;
+    }
+
+    #sidebar nav .indent {
+      padding-left: 40px;
+      font-size: 13px;
+    }
+
+    /* ─── Theme toggle button ─────────────────────────────────────── */
+    #theme-toggle {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin: 4px 24px 0;
+      padding: 8px 12px;
+      border-radius: 10px;
+      background: var(--toggle-bg);
+      color: var(--toggle-color);
+      border: none;
+      cursor: pointer;
+      font-family: 'Manrope', sans-serif;
+      font-size: 12.5px;
+      font-weight: 600;
+      transition: background 0.15s, color 0.15s;
+      width: calc(100% - 48px);
+    }
+
+    #theme-toggle:hover {
+      background: var(--toggle-hover);
+    }
+
+    #theme-toggle .toggle-icon {
+      font-size: 15px;
+      line-height: 1;
+    }
+
+    #theme-toggle .toggle-track {
+      margin-left: auto;
+      width: 32px;
+      height: 18px;
+      border-radius: 9px;
+      background: rgba(255, 255, 255, 0.15);
+      position: relative;
+      transition: background 0.2s;
+      flex-shrink: 0;
+    }
+
+    [data-theme="dark"] #theme-toggle .toggle-track {
+      background: var(--primary);
+    }
+
+    #theme-toggle .toggle-thumb {
+      position: absolute;
+      top: 2px;
+      left: 2px;
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.6);
+      transition: transform 0.2s, background 0.2s;
+    }
+
+    [data-theme="dark"] #theme-toggle .toggle-thumb {
+      transform: translateX(14px);
+      background: #fff;
+    }
+
+    /* ─── Main content ────────────────────────────────────────────── */
+    main {
+      flex: 1;
+      max-width: 900px;
+      padding: 48px 56px 80px;
+      overflow-x: hidden;
+    }
+
+    /* ─── Sections ────────────────────────────────────────────────── */
+    .section {
+      margin-bottom: 64px;
+      scroll-margin-top: 32px;
+    }
+
+    .section-title {
+      font-size: 28px;
+      font-weight: 800;
+      color: var(--primary);
+      letter-spacing: -0.5px;
+      margin-bottom: 8px;
+      padding-bottom: 12px;
+      border-bottom: 2px solid var(--secondary-bg);
+    }
+
+    .section-desc {
+      font-size: 15px;
+      color: var(--on-surface-var);
+      margin-bottom: 28px;
+    }
+
+    h3 {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--primary);
+      margin: 28px 0 10px;
+    }
+
+    h4 {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--on-surface);
+      margin: 20px 0 8px;
+    }
+
+    p {
+      margin-bottom: 12px;
+      color: var(--on-surface-var);
+      font-size: 14.5px;
+    }
+
+    ul,
+    ol {
+      padding-left: 20px;
+      margin-bottom: 14px;
+      color: var(--on-surface-var);
+      font-size: 14.5px;
+    }
+
+    li {
+      margin-bottom: 5px;
+    }
+
+    strong {
+      color: var(--on-surface);
+      font-weight: 700;
+    }
+
+    /* ─── Cards ───────────────────────────────────────────────────── */
+    .card {
+      background: var(--surface);
+      border-radius: 16px;
+      border: 1px solid var(--outline-var);
+      padding: 20px 24px;
+      margin-bottom: 16px;
+      box-shadow: 0 2px 12px var(--shadow);
+    }
+
+    .card-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--primary);
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .card-icon {
+      width: 28px;
+      height: 28px;
+      border-radius: 8px;
+      background: var(--navy-bg);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+    }
+
+    /* ─── Status chips (mirrors app Status Jewels) ─────────────────── */
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 3px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .chip-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      display: inline-block;
+    }
+
+    .chip.pending {
+      background: var(--gold-bg);
+      color: var(--gold-text);
+    }
+
+    .chip.confirmed {
+      background: var(--navy-bg);
+      color: var(--navy-text);
+    }
+
+    .chip.checked-in {
+      background: var(--green-bg);
+      color: var(--green-text);
+    }
+
+    .chip.checked-out {
+      background: var(--surface-var);
+      color: var(--on-surface-var);
+    }
+
+    .chip.cancelled {
+      background: var(--error-bg);
+      color: var(--error-text);
+    }
+
+    .chip.no-show {
+      background: var(--error-bg);
+      color: var(--error-text);
+    }
+
+    .chip.available {
+      background: var(--green-bg);
+      color: var(--green-text);
+    }
+
+    .chip.occupied {
+      background: var(--error-bg);
+      color: var(--error-text);
+    }
+
+    .chip.reserved {
+      background: var(--gold-bg);
+      color: var(--gold-text);
+    }
+
+    .chip.maintenance {
+      background: var(--surface-var);
+      color: var(--on-surface-var);
+    }
+
+    /* ─── Status table ────────────────────────────────────────────── */
+    .status-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 20px;
+      font-size: 13.5px;
+    }
+
+    .status-table th {
+      background: var(--primary);
+      color: #fff;
+      padding: 10px 14px;
+      text-align: left;
+      font-weight: 700;
+      font-size: 12px;
+      letter-spacing: 0.5px;
+    }
+
+    .status-table th:first-child {
+      border-radius: 10px 0 0 0;
+    }
+
+    .status-table th:last-child {
+      border-radius: 0 10px 0 0;
+    }
+
+    .status-table td {
+      padding: 11px 14px;
+      border-bottom: 1px solid var(--outline-var);
+      vertical-align: top;
+      color: var(--on-surface-var);
+    }
+
+    .status-table tr:last-child td {
+      border-bottom: none;
+    }
+
+    .status-table tr:nth-child(even) td {
+      background: var(--bg);
+    }
+
+    /* ─── Flow steps ──────────────────────────────────────────────── */
+    .flow {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      margin: 20px 0 28px;
+      position: relative;
+    }
+
+    .flow::before {
+      content: '';
+      position: absolute;
+      left: 19px;
+      top: 20px;
+      bottom: 20px;
+      width: 2px;
+      background: var(--outline-var);
+    }
+
+    .flow-step {
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+      padding: 0 0 20px 0;
+      position: relative;
+    }
+
+    .flow-step:last-child {
+      padding-bottom: 0;
+    }
+
+    .step-num {
+      width: 40px;
+      height: 40px;
+      min-width: 40px;
+      border-radius: 50%;
+      background: var(--primary);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      font-weight: 800;
+      position: relative;
+      z-index: 1;
+      box-shadow: 0 2px 8px var(--shadow);
+    }
+
+    .step-body {
+      padding-top: 8px;
+      flex: 1;
+    }
+
+    .step-body strong {
+      font-size: 15px;
+      color: var(--primary);
+    }
+
+    .step-body p {
+      margin-top: 4px;
+      margin-bottom: 0;
+      font-size: 13.5px;
+    }
+
+    /* ─── Callout boxes ───────────────────────────────────────────── */
+    .callout {
+      border-radius: 12px;
+      padding: 14px 18px;
+      margin: 16px 0;
+      font-size: 13.5px;
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+    }
+
+    .callout .callout-icon {
+      font-size: 18px;
+      line-height: 1.5;
+    }
+
+    .callout-body strong {
+      display: block;
+      font-size: 14px;
+      margin-bottom: 3px;
+    }
+
+    .callout.info {
+      background: var(--navy-bg);
+      color: var(--navy-text);
+    }
+
+    .callout.warning {
+      background: var(--gold-bg);
+      color: var(--gold-text);
+    }
+
+    .callout.danger {
+      background: var(--error-bg);
+      color: var(--error-text);
+    }
+
+    .callout.success {
+      background: var(--green-bg);
+      color: var(--green-text);
+    }
+
+    /* ─── Where-to-find guide ─────────────────────────────────────── */
+    .where-to {
+      background: var(--surface-var);
+      border-radius: 12px;
+      padding: 14px 18px;
+      margin: 12px 0 20px;
+      font-size: 13.5px;
+      color: var(--on-surface-var);
+      border-left: 4px solid var(--secondary);
+    }
+
+    .where-to strong {
+      color: var(--secondary);
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      display: block;
+      margin-bottom: 5px;
+    }
+
+    .path {
+      font-family: monospace;
+      background: rgba(4, 21, 52, 0.06);
+      padding: 2px 6px;
+      border-radius: 5px;
+      font-size: 12.5px;
+      color: var(--primary);
+    }
+
+    /* ─── Two-column grid ─────────────────────────────────────────── */
+    .two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-bottom: 16px;
+    }
+
+    /* ─── Transitions for theme switch ───────────────────────────── */
+    body,
+    main,
+    .card,
+    .callout,
+    .where-to,
+    .status-table td,
+    .status-table th,
+    .flow-step,
+    .step-num,
+    .cover {
+      transition: background 0.25s, color 0.25s, border-color 0.25s;
+    }
+
+    /* ─── Cover / hero ────────────────────────────────────────────── */
+    .cover {
+      background: linear-gradient(135deg, var(--primary-light) 0%, #0A1020 100%);
+      border-radius: 20px;
+      padding: 40px 40px 36px;
+      color: #fff;
+      margin-bottom: 48px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    [data-theme="dark"] .cover {
+      background: linear-gradient(135deg, #1B2A4A 0%, #0A1020 100%);
+    }
+
+    .cover::after {
+      content: '';
+      position: absolute;
+      right: -40px;
+      bottom: -40px;
+      width: 200px;
+      height: 200px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.04);
+    }
+
+    .cover .logo-ring {
+      width: 56px;
+      height: 56px;
+      border-radius: 16px;
+      overflow: hidden;
+      margin-bottom: 20px;
+    }
+    .cover .logo-ring img {
+      width: 100%; height: 100%; object-fit: cover; display: block;
+    }
+
+    .cover h1 {
+      font-size: 34px;
+      font-weight: 800;
+      letter-spacing: -1px;
+      margin-bottom: 6px;
+    }
+
+    .cover p {
+      font-size: 15px;
+      color: rgba(255, 255, 255, 0.65);
+      max-width: 480px;
+      line-height: 1.6;
+    }
+
+    .cover .meta {
+      margin-top: 24px;
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .cover .meta span {
+      font-size: 12px;
+      color: rgba(255, 255, 255, 0.5);
+      background: rgba(255, 255, 255, 0.08);
+      padding: 4px 12px;
+      border-radius: 999px;
+    }
+
+    /* ─── Divider ─────────────────────────────────────────────────── */
+    .divider {
+      border: none;
+      border-top: 1px solid var(--outline-var);
+      margin: 32px 0;
+    }
+
+    /* ─── Print / responsive ─────────────────────────────────────── */
+    @media (max-width: 900px) {
+      body {
+        flex-direction: column;
+      }
+
+      #sidebar {
+        width: 100%;
+        height: auto;
+        position: relative;
+        padding: 16px 0;
+      }
+
+      #sidebar nav {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 4px;
+        padding: 0 16px;
+      }
+
+      #sidebar nav a {
+        padding: 6px 12px;
+        border-left: none;
+        border-radius: 8px;
+        font-size: 12px;
+      }
+
+      #sidebar nav .section-head {
+        display: none;
+      }
+
+      main {
+        padding: 24px 20px 48px;
+      }
+
+      .two-col {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media print {
+      #sidebar {
+        display: none;
+      }
+
+      main {
+        padding: 24px;
+        max-width: 100%;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ════════════════════════════════════════════════════════════════ -->
+  <!--  SIDEBAR NAVIGATION                                             -->
+  <!-- ════════════════════════════════════════════════════════════════ -->
+  <aside id="sidebar">
+    <div class="brand">
+      <h1>ResortLog</h1>
+      <p>User Manual &amp; SOP</p>
+    </div>
+
+    <button id="theme-toggle" onclick="toggleTheme()" aria-label="Toggle dark mode">
+      <span class="toggle-icon" id="toggle-icon">☀️</span>
+      <span id="toggle-label">Light Mode</span>
+      <span class="toggle-track"><span class="toggle-thumb"></span></span>
+    </button>
+
+    <nav>
+      <div class="section-head">Overview</div>
+      <a href="#getting-started">Getting Started</a>
+      <a href="#dashboard">Dashboard</a>
+
+      <div class="section-head">Bookings</div>
+      <a href="#bookings-list">Booking List</a>
+      <a href="#create-booking">Creating a Booking</a>
+      <a href="#booking-details">Booking Details</a>
+      <a href="#booking-statuses">Booking Statuses</a>
+
+      <div class="section-head">Operations</div>
+      <a href="#checkin">Check-in Wizard</a>
+      <a href="#checkout">Checkout Flow</a>
+      <a href="#addons">Add-On Services</a>
+
+      <div class="section-head">Manage</div>
+      <a href="#rooms">Rooms</a>
+      <a href="#guests">Guests</a>
+      <a href="#calendar">Calendar</a>
+
+      <div class="section-head">Finance</div>
+      <a href="#billing">Billing &amp; Invoices</a>
+      <a href="#reports">Reports</a>
+
+      <div class="section-head">Admin</div>
+      <a href="#settings">Settings</a>
+      <a href="#glossary">Glossary</a>
+    </nav>
+  </aside>
+
+  <!-- ════════════════════════════════════════════════════════════════ -->
+  <!--  MAIN CONTENT                                                   -->
+  <!-- ════════════════════════════════════════════════════════════════ -->
+  <main>
+
+    <!-- COVER -->
+    <div class="cover">
+      <div class="logo-ring"><img src="./icon.png" alt="ResortLog" /></div>
+      <h1>ResortLog</h1>
+      <p>Complete user manual and standard operating procedures for managing your hotel or resort with the ResortLog
+        app.</p>
+      <div class="meta">
+        <span>Sahoo Soft Technologies</span>
+        <span>Android</span>
+        <span>India Market</span>
+        <span>Last updated: March 2026</span>
+      </div>
+    </div>
+
+
+    <!-- ══════════════════════════════════════════════════════════ -->
+    <!-- 1. GETTING STARTED                                         -->
+    <!-- ══════════════════════════════════════════════════════════ -->
+    <section class="section" id="getting-started">
+      <div class="section-title">Getting Started</div>
+      <p class="section-desc">A quick orientation so you understand how the app is organized before diving into specific
+        tasks.</p>
+
+      <h3>App Structure at a Glance</h3>
+      <div class="two-col">
+        <div class="card">
+          <div class="card-title"><span class="card-icon">📋</span> Bookings</div>
+          <p>Create, confirm, and manage all reservations. The central hub for all guest stays.</p>
+        </div>
+        <div class="card">
+          <div class="card-title"><span class="card-icon">✅</span> Check-in / Check-out</div>
+          <p>4-step check-in wizard to register arriving guests. Checkout flow to finalize bills and release rooms.</p>
+        </div>
+        <div class="card">
+          <div class="card-title"><span class="card-icon">🏠</span> Rooms</div>
+          <p>Manage your room inventory, room types, pricing, amenities, and availability.</p>
+        </div>
+        <div class="card">
+          <div class="card-title"><span class="card-icon">👥</span> Guests</div>
+          <p>Guest profiles with stay history, ID documents, photos, and blacklist management.</p>
+        </div>
+        <div class="card">
+          <div class="card-title"><span class="card-icon">🗓️</span> Calendar</div>
+          <p>Visual timeline of all bookings across rooms for any month.</p>
+        </div>
+        <div class="card">
+          <div class="card-title"><span class="card-icon">🧾</span> Billing</div>
+          <p>GST-compliant invoices generated at checkout. Download or share via WhatsApp.</p>
+        </div>
+      </div>
+
+      <h3>Bottom Navigation Bar</h3>
+      <p>A sticky bar appears at the bottom of every screen with four quick-access buttons:</p>
+      <ul>
+        <li><strong>Home</strong> — Go to the Dashboard</li>
+        <li><strong>Calendar</strong> — Open the occupancy calendar</li>
+        <li><strong>Availability</strong> — Quickly check which rooms are free for any date range</li>
+        <li><strong>Check-out</strong> — Jump to the checkout list (active stays)</li>
+      </ul>
+
+      <h3>Drawer Menu (☰)</h3>
+      <p>Tap the hamburger icon (☰) in the top-left of any screen to open the side drawer and navigate between major
+        sections: Dashboard, Bookings, Check-in, Rooms, Guests, Calendar, Billing, Reports, and Settings.</p>
+    </section>
+
+
+    <!-- ══════════════════════════════════════════════════════════ -->
+    <!-- 2. DASHBOARD                                               -->
+    <!-- ══════════════════════════════════════════════════════════ -->
+    <section class="section" id="dashboard">
+      <div class="section-title">Dashboard</div>
+      <p class="section-desc">Your daily command center. Opens when you launch the app.</p>
+
+      <div class="card">
+        <div class="card-title">What you see on the Dashboard</div>
+        <ul>
+          <li><strong>Occupancy ring</strong> — Large circular indicator showing the percentage of rooms currently
+            occupied.</li>
+          <li><strong>Three stats</strong> — Arrivals today / Departures today / Available rooms (right now).</li>
+          <li><strong>Quick action buttons</strong> — New Booking · Check-in · Check-out · Rooms.</li>
+          <li><strong>Today's Activity</strong> — A list of all bookings with arrivals, departures, or active stays for
+            today. Tap any booking to open its details.</li>
+        </ul>
+      </div>
+
+      <h3>Checking Room Availability from Dashboard</h3>
+      <p>Tap the <strong>Availability</strong> button in the bottom navigation bar. Select check-in and check-out dates,
+        then tap <strong>Check</strong>. The screen shows:</p>
+      <ul>
+        <li>A count of available rooms (large number, green).</li>
+        <li><strong>Available rooms list</strong> — room number, type, and price for those dates.</li>
+        <li><strong>Already booked rooms</strong> — guest name, room, and booking reference. Tap to view that booking.
+        </li>
+      </ul>
+    </section>
+
+
+    <!-- ══════════════════════════════════════════════════════════ -->
+    <!-- 3. BOOKINGS LIST                                           -->
+    <!-- ══════════════════════════════════════════════════════════ -->
+    <section class="section" id="bookings-list">
+      <div class="section-title">Bookings List</div>
+      <p class="section-desc">All reservations in one scrollable list with smart filters.</p>
+
+      <div class="where-to">
+        <strong>Where to find it</strong>
+        Open the drawer ☰ → tap <strong>Bookings</strong>
+      </div>
+
+      <h3>Filter Chips</h3>
+      <table class="status-table">
+        <thead>
+          <tr>
+            <th>Filter</th>
+            <th>What it shows</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Active &amp; Upcoming</strong></td>
+            <td>Bookings that are Pending, Confirmed, or Checked-in with a future check-in date.</td>
+          </tr>
+          <tr>
+            <td><strong>Check-ins</strong></td>
+            <td>Bookings checking in <em>today</em> that have not yet been checked-in.</td>
+          </tr>
+          <tr>
+            <td><strong>Check-outs</strong></td>
+            <td>Guests who are currently checked-in with a checkout date of today, or who checked out today.</td>
+          </tr>
+          <tr>
+            <td><strong>History</strong></td>
+            <td>Completed (Checked-out), Cancelled, and No-Show bookings.</td>
+          </tr>
+          <tr>
+            <td><strong>All</strong></td>
+            <td>Every booking regardless of status.</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>Searching Bookings</h3>
+      <p>Use the search bar at the top to find bookings by <strong>guest name</strong>, <strong>phone number</strong>,
+        or <strong>booking reference</strong>.</p>
+
+      <h3>Booking Card Information</h3>
+      <ul>
+        <li>Guest name, booking reference, and room number.</li>
+        <li>Status chip (see <a href="#booking-statuses">Booking Statuses</a> for meaning).</li>
+        <li>Check-in → Check-out dates.</li>
+        <li>Amount paid (green) and balance due (red badge, if any).</li>
+      </ul>
+    </section>
+
+
+    <!-- ══════════════════════════════════════════════════════════ -->
+    <!-- 4. CREATING A BOOKING                                      -->
+    <!-- ══════════════════════════════════════════════════════════ -->
+    <section class="section" id="create-booking">
+      <div class="section-title">Creating a Booking</div>
+      <p class="section-desc">Walk-in, phone, or OTA — create any new reservation in under a minute.</p>
+
+      <div class="where-to">
+        <strong>Where to find it</strong>
+        Bookings screen → tap the <strong>+ (plus)</strong> button at the bottom right
+        <em>or</em> Dashboard → tap <strong>New Booking</strong>
+      </div>
+
+      <div class="flow">
+        <div class="flow-step">
+          <div class="step-num">1</div>
+          <div class="step-body">
+            <strong>Enter Guest Phone Number</strong>
+            <p>Type the 10-digit mobile number. The app automatically searches for an existing guest. If found, it shows
+              "Found: [Guest Name]" — you skip re-entering their details. If not found, you'll be asked to enter their
+              name.</p>
+          </div>
+        </div>
+        <div class="flow-step">
+          <div class="step-num">2</div>
+          <div class="step-body">
+            <strong>Select Stay Dates</strong>
+            <p>Tap <strong>Check-in</strong> and <strong>Check-out</strong> date buttons. Minimum stay is 1 night.</p>
+          </div>
+        </div>
+        <div class="flow-step">
+          <div class="step-num">3</div>
+          <div class="step-body">
+            <strong>Choose a Room</strong>
+            <p>Only rooms <em>available for those dates</em> appear. Swipe through the room chips; tap one to select.
+              The chip shows room number, type, and rate.</p>
+          </div>
+        </div>
+        <div class="flow-step">
+          <div class="step-num">4</div>
+          <div class="step-body">
+            <strong>Set Occupants &amp; Source</strong>
+            <p>Use ＋/－ steppers for Adults and Children. Select booking source: Walk-in, Phone, or OTA.</p>
+          </div>
+        </div>
+        <div class="flow-step">
+          <div class="step-num">5</div>
+          <div class="step-body">
+            <strong>Record Advance Payment (Optional)</strong>
+            <p>Enter an advance amount and choose payment mode (Cash, UPI, Card, Bank Transfer). Leave blank if no
+              advance is collected.</p>
+          </div>
+        </div>
+        <div class="flow-step">
+          <div class="step-num">6</div>
+          <div class="step-body">
+            <strong>Save</strong>
+            <p>Tap <strong>Save Booking</strong>. A confirmation screen shows the booking reference. The booking is
+              created with status <span class="chip confirmed">Confirmed</span>.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="callout info">
+        <span class="callout-icon">💡</span>
+        <div class="callout-body">
+          <strong>Pricing Summary</strong>
+          If a room has different weekday and weekend rates, the pricing card at the bottom automatically breaks down
+          the cost by weekday nights vs. weekend (Fri–Sun) nights.
+        </div>
+      </div>
+
+      <div class="callout warning">
+        <span class="callout-icon">⚠️</span>
+        <div class="callout-body">
+          <strong>Blacklisted Guests</strong>
+          If the guest is marked as blacklisted, the app will block saving the booking. You must remove the blacklist
+          flag first from the guest's profile.
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ══════════════════════════════════════════════════════════ -->
+    <!-- 5. BOOKING DETAILS                                         -->
+    <!-- ══════════════════════════════════════════════════════════ -->
+    <section class="section" id="booking-details">
+      <div class="section-title">Booking Details</div>
+      <p class="section-desc">Everything about a single reservation — stay info, payments, add-ons, and all available
+        actions.</p>
+
+      <div class="where-to">
+        <strong>Where to find it</strong>
+        Bookings list → tap any booking card
+      </div>
+
+      <h3>What You Can See</h3>
+      <ul>
+        <li><strong>Guest name, booking reference, room number</strong> and current status chip.</li>
+        <li><strong>Stay details</strong> — check-in date, check-out date, number of nights, adult &amp; children count.
+        </li>
+        <li><strong>Payment summary</strong> — total amount, amount paid (green), balance due (red if any), and a list
+          of every recorded payment with date and mode.</li>
+        <li><strong>Special Services (Add-Ons)</strong> — services added to this booking (e.g., extra bed, laundry).
+          Each shows the name and price. You can remove them with the ✕ button or add more.</li>
+        <li><strong>Fees</strong> — early check-in fee or late checkout fee, if charged.</li>
+      </ul>
+
+      <h3>Adding a Payment</h3>
+      <p>Scroll to the Payments section → tap <strong>Add Payment</strong>. Enter the amount and choose the payment
+        mode. This is how you record partial payments or the remaining balance before checkout.</p>
+
+      <h3>Adding Add-On Services to a Booking</h3>
+      <p>Scroll to the <strong>Special Services</strong> section → tap <strong>+ Add Service</strong>. A modal opens
+        where you can:</p>
+      <ul>
+        <li>Select from pre-configured services (set up in Settings → Add-Ons / Services).</li>
+        <li>Or type a custom service name and price.</li>
+      </ul>
+      <p>The service price is added to the booking total immediately.</p>
+
+      <h3>Actions Available (Depend on Status)</h3>
+      <table class="status-table">
+        <thead>
+          <tr>
+            <th>Status</th>
+            <th>Available Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="chip pending">Pending</span></td>
+            <td>Confirm Booking · Cancel Booking · Mark No Show · Edit</td>
+          </tr>
+          <tr>
+            <td><span class="chip confirmed">Confirmed</span></td>
+            <td>Check-in Guest (opens wizard) · Cancel Booking · Extend Stay (add 1 night) · Edit</td>
+          </tr>
+          <tr>
+            <td><span class="chip checked-in">Checked-in</span></td>
+            <td>Check-out Guest (opens checkout flow) · Add Payment · Add Add-On Service</td>
+          </tr>
+          <tr>
+            <td><span class="chip checked-out">Checked-out</span></td>
+            <td>View only · Download Invoice · Share Invoice</td>
+          </tr>
+          <tr>
+            <td><span class="chip cancelled">Cancelled</span></td>
+            <td>View only</td>
+          </tr>
+          <tr>
+            <td><span class="chip no-show">No Show</span></td>
+            <td>View only</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>Editing a Booking</h3>
+      <p>Tap the <strong>pencil icon</strong> in the top-right header (only visible for Pending or Confirmed bookings).
+        You can update dates, room, occupants, source, and notes. Add-on fees and special service charges must be
+        managed from the booking details screen, not the edit form.</p>
+
+      <h3>Extending a Stay</h3>
+      <p>On a Confirmed booking, tap <strong>Extend Stay</strong>. This adds 1 extra night at the appropriate rate
+        (weekday or weekend). Repeat to add multiple nights.</p>
+    </section>
+
+
+    <!-- ══════════════════════════════════════════════════════════ -->
+    <!-- 6. BOOKING STATUSES                                        -->
+    <!-- ══════════════════════════════════════════════════════════ -->
+    <section class="section" id="booking-statuses">
+      <div class="section-title">Booking Statuses Explained</div>
+      <p class="section-desc">Every booking moves through a lifecycle. Here is what each status means and what happens
+        when you trigger a status change.</p>
+
+      <!-- PENDING -->
+      <div class="card">
+        <div class="card-title">
+          <span class="chip pending">Pending</span>
+        </div>
+        <p><strong>What it means:</strong> The booking was created but not yet formally confirmed. Often used when you
+          want to hold a room while waiting for confirmation or payment.</p>
+        <p><strong>What you can do:</strong> Confirm it (moves to Confirmed), Cancel it, or Mark as No Show.</p>
+        <p><strong>Room impact:</strong> The room is still shown as Reserved in the availability checker but is not yet
+          locked for the guest.</p>
+      </div>
+
+      <!-- CONFIRMED -->
+      <div class="card">
+        <div class="card-title">
+          <span class="chip confirmed">Confirmed</span>
+        </div>
+        <p><strong>What it means:</strong> The booking is confirmed and the room is reserved for this guest on those
+          dates. No other booking can be made for the same room on overlapping dates.</p>
+        <p><strong>What you can do:</strong> Start the check-in wizard when the guest arrives, Cancel it, or Extend the
+          stay.</p>
+        <p><strong>Room impact:</strong> Room is shown as Reserved.</p>
+      </div>
+
+      <!-- CHECKED-IN -->
+      <div class="card">
+        <div class="card-title">
+          <span class="chip checked-in">Checked-in</span>
+        </div>
+        <p><strong>What it means:</strong> The guest has physically arrived and been checked in using the wizard. Their
+          ID and details have been captured.</p>
+        <p><strong>What you can do:</strong> Add payments, add services, and eventually check them out.</p>
+        <p><strong>Room impact:</strong> Room status changes to <span class="chip occupied">Occupied</span>. Guest name
+          appears on the room card.</p>
+      </div>
+
+      <!-- CHECKED-OUT -->
+      <div class="card">
+        <div class="card-title">
+          <span class="chip checked-out">Checked-out</span>
+        </div>
+        <p><strong>What it means:</strong> The guest has departed. The bill has been finalized and the invoice is
+          generated. This is the terminal state for a completed stay.</p>
+        <p><strong>What you can do:</strong> View the booking, download or share the invoice. No further edits are
+          possible.</p>
+        <p><strong>Room impact:</strong> Room status changes back to <span class="chip available">Available</span>.</p>
+        <p><strong>Invoice:</strong> The booking appears in Billing &amp; Invoices automatically.</p>
+      </div>
+
+      <!-- CANCELLED -->
+      <div class="card">
+        <div class="card-title">
+          <span class="chip cancelled">Cancelled</span>
+        </div>
+        <p><strong>What it means:</strong> The booking was cancelled before the guest arrived. This can be done by the
+          guest or by the property.</p>
+        <p><strong>What happens:</strong></p>
+        <ul>
+          <li>The room is released — it becomes available again for new bookings on those dates.</li>
+          <li>Any advance payment already recorded is <em>not</em> automatically refunded — you need to handle refunds
+            manually and record them.</li>
+          <li>The booking is moved to the <strong>History</strong> filter in the bookings list.</li>
+          <li>The booking becomes read-only — no further changes are allowed.</li>
+          <li>The cancelled booking still shows in the guest's history on their profile.</li>
+        </ul>
+        <div class="callout warning">
+          <span class="callout-icon">⚠️</span>
+          <div class="callout-body">
+            <strong>Cancellation is irreversible.</strong>
+            Once you mark a booking as Cancelled, it cannot be restored. You would need to create a new booking if the
+            guest wants to re-book.
+          </div>
+        </div>
+      </div>
+
+      <!-- NO SHOW -->
+      <div class="card">
+        <div class="card-title">
+          <span class="chip no-show">No Show</span>
+        </div>
+        <p><strong>What it means:</strong> The guest had a confirmed booking but did not arrive on the check-in date and
+          did not contact the property. This is different from a cancellation — the guest simply didn't show up.</p>
+        <p><strong>What happens:</strong></p>
+        <ul>
+          <li>The room is released and becomes available again.</li>
+          <li>The booking is moved to <strong>History</strong> and becomes read-only.</li>
+          <li>Any advance collected is <em>typically</em> forfeited (per your property policy) — the app does not
+            auto-refund it.</li>
+          <li>The no-show is recorded in the guest's history, helping you identify guests with a pattern of not showing
+            up.</li>
+        </ul>
+        <div class="callout info">
+          <span class="callout-icon">💡</span>
+          <div class="callout-body">
+            <strong>When to use No Show vs. Cancelled:</strong> Use <strong>No Show</strong> only when the guest did not
+            contact you and simply didn't arrive. Use <strong>Cancelled</strong> when the guest or property proactively
+            cancelled the reservation.
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ══════════════════════════════════════════════════════════ -->
+    <!-- 7. CHECK-IN WIZARD                                         -->
+    <!-- ══════════════════════════════════════════════════════════ -->
+    <section class="section" id="checkin">
+      <div class="section-title">Check-in Wizard</div>
+      <p class="section-desc">A 4-step guided process to register an arriving guest and capture all required details.
+      </p>
+
+      <div class="where-to">
+        <strong>Where to find it</strong>
+        Drawer ☰ → <strong>Check-in</strong>
+        <em>or</em> Dashboard → <strong>Check-in</strong> button
+        <em>or</em> Booking Details → <strong>Check-in Guest</strong> button
+      </div>
+
+      <h3>Check-in Home Screen</h3>
+      <p>This screen shows two sections:</p>
+      <ul>
+        <li><strong>Active Stays</strong> — Guests currently checked-in. Tap "Check Out →" to start checkout for any
+          guest.</li>
+        <li><strong>Today's Check-ins</strong> — Bookings scheduled for today that haven't been checked-in yet. Tap a
+          booking to open the wizard.</li>
+      </ul>
+
+      <div class="flow">
+        <div class="flow-step">
+          <div class="step-num">1</div>
+          <div class="step-body">
+            <strong>Step 1 — Select Arrival</strong>
+            <p>Choose the booking from the list of today's expected arrivals. The booking shows guest name, room number,
+              and booking reference. Tap <strong>Next</strong>.</p>
+          </div>
+        </div>
+        <div class="flow-step">
+          <div class="step-num">2</div>
+          <div class="step-body">
+            <strong>Step 2 — Guest Details</strong>
+            <p>Review and fill in guest information — name, gender, date of birth, nationality, address, city, state,
+              email. Also capture <strong>emergency contact</strong> name and number, and optionally vehicle details
+              (e.g., car registration). All fields pre-fill from the existing guest record if available. Tap
+              <strong>Next</strong>.
+            </p>
+          </div>
+        </div>
+        <div class="flow-step">
+          <div class="step-num">3</div>
+          <div class="step-body">
+            <strong>Step 3 — ID Capture</strong>
+            <p>Select the ID proof type (Aadhaar, PAN, Passport, Driving License, Voter ID) and enter the ID number.
+              Capture the front of the ID document using the camera or gallery — a preview is shown. If it's a two-sided
+              document, capture the back as well. Optionally capture a face photo of the guest. Tap
+              <strong>Next</strong>.
+            </p>
+          </div>
+        </div>
+        <div class="flow-step">
+          <div class="step-num">4</div>
+          <div class="step-body">
+            <strong>Step 4 — Confirm Check-in</strong>
+            <p>A read-only summary of all entered information is shown for review. At the bottom, <strong>slide the
+                thumb to the right</strong> until it locks (requires reaching 82% of the track). This confirms the
+              check-in. On success:</p>
+            <ul>
+              <li>Booking status → <span class="chip checked-in">Checked-in</span></li>
+              <li>Room status → <span class="chip occupied">Occupied</span></li>
+              <li>Guest record updated with new details and photos.</li>
+              <li>A success screen is shown and you are returned to Check-in Home.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="callout success">
+        <span class="callout-icon">✅</span>
+        <div class="callout-body">
+          <strong>After check-in</strong>
+          The guest now appears in the Active Stays section of the Check-in Home. Their room card in the Rooms screen
+          shows their name and Occupied status.
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ══════════════════════════════════════════════════════════ -->
+    <!-- 8. CHECKOUT FLOW                                           -->
+    <!-- ══════════════════════════════════════════════════════════ -->
+    <section class="section" id="checkout">
+      <div class="section-title">Checkout Flow</div>
+      <p class="section-desc">Finalize the bill, record remaining payment, apply discounts, generate the invoice, and
+        release the room.</p>
+
+      <div class="where-to">
+        <strong>Where to find it</strong>
+        Check-in screen → Active Stays → <strong>Check Out →</strong>
+        <em>or</em> Booking Details → <strong>Check-out Guest</strong> button
+        <em>or</em> Bottom nav bar → <strong>Check-out</strong>
+      </div>
+
+      <h3>What You See on the Checkout Screen</h3>
+      <ul>
+        <li><strong>Booking summary</strong> — guest name, room, dates, nights.</li>
+        <li><strong>Itemized bill</strong>:
+          <ul>
+            <li>Room charges (broken down by weekday/weekend if applicable)</li>
+            <li>Early check-in fee (if charged)</li>
+            <li>Late checkout fee (if charged)</li>
+            <li>Add-on services (each listed with price)</li>
+          </ul>
+        </li>
+        <li><strong>GST</strong> — if GST billing is enabled in Settings, CGST (9%) + SGST (9%) are calculated and
+          shown.</li>
+        <li><strong>Discount</strong> — shows any discount applied.</li>
+        <li><strong>Payments recorded</strong> — all previously recorded payments listed.</li>
+        <li><strong>Balance Due</strong> — amount still owed (large, red if > ₹0).</li>
+      </ul>
+
+      <h3>Applying a Discount</h3>
+      <p>Tap <strong>Apply Discount</strong>. Choose type:</p>
+      <ul>
+        <li><strong>Fixed</strong> — a flat rupee amount (e.g., ₹500 off).</li>
+        <li><strong>Percentage</strong> — a percentage of the total (e.g., 10%).</li>
+      </ul>
+      <p>Enter a reason (required). Tap <strong>Apply</strong>. The discount is deducted from the net payable.</p>
+
+      <h3>Recording Payment at Checkout</h3>
+      <p>Tap <strong>Add Payment</strong>. Enter the remaining amount (or any partial amount) and select the payment
+        mode. This creates a payment record.</p>
+
+      <div class="callout danger">
+        <span class="callout-icon">🔒</span>
+        <div class="callout-body">
+          <strong>Balance must be ₹0 to check out</strong>
+          The swipe-to-checkout button is disabled if the balance due is greater than ₹0. Record the remaining payment
+          first, then swipe to complete checkout.
+        </div>
+      </div>
+
+      <h3>Completing Checkout (Swipe)</h3>
+      <p>Once balance is ₹0, slide the thumb at the bottom to the right. On completion:</p>
+      <ul>
+        <li>Booking status → <span class="chip checked-out">Checked-out</span></li>
+        <li>Room status → <span class="chip available">Available</span></li>
+        <li>Invoice is generated and stored.</li>
+        <li>Booking appears in <strong>Billing &amp; Invoices</strong>.</li>
+      </ul>
+
+      <h3>Downloading / Sharing the Invoice</h3>
+      <p>After checkout, tap <strong>Download Invoice</strong> to save a PDF to your device, or <strong>Share
+          Invoice</strong> to send via WhatsApp, email, or any other app. The invoice includes all property details,
+        guest details, itemized charges, GST breakdown, and payment records.</p>
+    </section>
+
+
+    <!-- ══════════════════════════════════════════════════════════ -->
+    <!-- 9. ADD-ON SERVICES                                         -->
+    <!-- ══════════════════════════════════════════════════════════ -->
+    <section class="section" id="addons">
+      <div class="section-title">Add-On Services</div>
+      <p class="section-desc">Billable services beyond the room rate — extra bed, laundry, food orders, transportation,
+        and more.</p>
+
+      <h3>Step 1 — Configure Your Services</h3>
+      <div class="where-to">
+        <strong>Where to configure</strong>
+        Settings → <strong>Add-Ons / Services</strong>
+      </div>
+      <p>Here you define the services your property offers. Each service has a <strong>name</strong> and a
+        <strong>price</strong>. Examples:
+      </p>
+      <ul>
+        <li>Extra Bed — ₹500</li>
+        <li>Laundry Service — ₹300</li>
+        <li>Airport Transfer — ₹1,500</li>
+        <li>Welcome Kit — ₹250</li>
+      </ul>
+      <p>Tap <strong>Add New Service</strong> to open a modal. Enter the name and price, then tap Save. To edit or
+        remove a service, use the pencil or trash icon on each service card.</p>
+
+      <div class="callout info">
+        <span class="callout-icon">💡</span>
+        <div class="callout-body">
+          Services configured here become available as quick-select options when adding services to a booking. You can
+          also always enter a custom service name + price on the spot.
+        </div>
+      </div>
+
+      <h3>Step 2 — Add a Service to a Booking</h3>
+      <div class="where-to">
+        <strong>Where to add them</strong>
+        Booking Details screen → scroll to <strong>Special Services</strong> → tap <strong>+ Add Service</strong>
+      </div>
+      <p>A modal opens showing your pre-configured services. Tap one to select it, or type a custom service name and
+        price. Tap <strong>Add</strong>. The service is added to the booking and the total amount increases
+        automatically.</p>
+      <p>You can add multiple services. Each appears as a line item with its price and a remove (✕) button.</p>
+
+      <h3>Step 3 — Services in the Bill</h3>
+      <p>During checkout, all add-on services are listed in the itemized billing breakdown. They are included in the
+        gross total and are subject to GST if enabled. You <em>cannot</em> remove services from the checkout screen —
+        remove them from Booking Details before initiating checkout.</p>
+
+      <div class="callout warning">
+        <span class="callout-icon">⚠️</span>
+        <div class="callout-body">
+          <strong>Add services before checkout begins.</strong>
+          Once you initiate checkout and the swipe is completed, the booking is locked. Add all required services while
+          the booking is Checked-in.
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ══════════════════════════════════════════════════════════ -->
+    <!-- 10. ROOMS                                                  -->
+    <!-- ══════════════════════════════════════════════════════════ -->
+    <section class="section" id="rooms">
+      <div class="section-title">Rooms</div>
+      <p class="section-desc">Manage your room inventory — add rooms, update availability, and monitor status at a
+        glance.</p>
+
+      <div class="where-to">
+        <strong>Where to find it</strong>
+        Drawer ☰ → <strong>Rooms</strong>
+      </div>
+
+      <h3>Room Status at a Glance</h3>
+      <table class="status-table">
+        <thead>
+          <tr>
+            <th>Status</th>
+            <th>Meaning</th>
+            <th>Can Be Booked?</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="chip available">Available</span></td>
+            <td>Empty and ready to accept a booking.</td>
+            <td>Yes</td>
+          </tr>
+          <tr>
+            <td><span class="chip occupied">Occupied</span></td>
+            <td>A guest is currently checked-in. Shows guest name on the card.</td>
+            <td>No</td>
+          </tr>
+          <tr>
+            <td><span class="chip reserved">Reserved</span></td>
+            <td>Blocked for an upcoming booking or manually reserved.</td>
+            <td>No (dates overlap)</td>
+          </tr>
+          <tr>
+            <td><span class="chip maintenance">Maintenance</span></td>
+            <td>Out of service — cleaning, repairs, renovation.</td>
+            <td>No</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>Changing Room Status Manually</h3>
+      <p>Tap the small status button on a room card (only visible for non-Occupied rooms). A modal lets you switch to
+        Available, Reserved, or Maintenance. Occupied status is set automatically when a guest checks in and cleared
+        when they check out.</p>
+
+      <h3>Adding a New Room</h3>
+      <div class="where-to">
+        <strong>Where to find it</strong>
+        Rooms screen → tap the <strong>+</strong> FAB button
+        <em>or</em> Settings → <strong>Add New Room</strong>
+      </div>
+      <p>Fill in: Room Number (required, must be unique), Room Name (optional), Room Type (Standard / Deluxe / Suite /
+        Cottage / Custom), Floor, Capacity, Bed Type, Base Price, Weekend Price (optional), Amenities, Check-in/Checkout
+        times, and a Description. Tap <strong>Save</strong>.</p>
+
+      <h3>Editing a Room</h3>
+      <p>Tap a room card to open its detail screen → tap <strong>Edit Room</strong>. All fields can be updated except
+        the room's internal ID.</p>
+
+      <h3>Weekend Pricing</h3>
+      <p>If you set a Weekend Price on a room, Friday, Saturday, and Sunday nights within a booking will use the weekend
+        rate. The new booking screen shows the breakdown automatically.</p>
+    </section>
+
+
+    <!-- ══════════════════════════════════════════════════════════ -->
+    <!-- 11. GUESTS                                                 -->
+    <!-- ══════════════════════════════════════════════════════════ -->
+    <section class="section" id="guests">
+      <div class="section-title">Guests</div>
+      <p class="section-desc">A directory of all guests who have ever made a booking at your property.</p>
+
+      <div class="where-to">
+        <strong>Where to find it</strong>
+        Drawer ☰ → <strong>Guests</strong>
+      </div>
+
+      <h3>Guest Card</h3>
+      <p>Each card shows the guest's photo (if captured during check-in) or their initials, their name, phone number,
+        and a <strong>total visits</strong> badge.</p>
+
+      <h3>Guest Profile (tap any guest)</h3>
+      <ul>
+        <li><strong>Contact info</strong> — phone, email, WhatsApp, full address.</li>
+        <li><strong>Tags</strong> — VIP, Repeat, Corporate, Blacklisted.</li>
+        <li><strong>Booking History</strong> — every booking with dates, room, and status. Tap to view the full booking.
+        </li>
+        <li><strong>Statistics</strong> — total spent, total visits, last visit date.</li>
+        <li><strong>ID Proof</strong> — type, number, front and back images (tappable to enlarge).</li>
+        <li><strong>Photos</strong> — face photos captured during check-in.</li>
+      </ul>
+
+      <h3>Blacklisting a Guest</h3>
+      <p>From the guest profile, tap <strong>Blacklist Guest</strong>. Confirm the action. A blacklisted guest cannot be
+        used to create new bookings — the app blocks it. To unblacklist, tap <strong>Remove from Blacklist</strong>.</p>
+
+      <h3>Deleting a Guest</h3>
+      <ul>
+        <li><strong>Active bookings exist</strong> — deletion is blocked. Cancel or complete the bookings first.</li>
+        <li><strong>Historical bookings exist</strong> — you are warned that deleting the guest also permanently deletes
+          their booking history. Confirm to proceed.</li>
+        <li><strong>No bookings</strong> — simple deletion with confirmation.</li>
+      </ul>
+
+      <h3>Searching Guests</h3>
+      <p>Use the search bar to find guests by <strong>name</strong> or <strong>phone number</strong>.</p>
+    </section>
+
+
+    <!-- ══════════════════════════════════════════════════════════ -->
+    <!-- 12. CALENDAR                                               -->
+    <!-- ══════════════════════════════════════════════════════════ -->
+    <section class="section" id="calendar">
+      <div class="section-title">Calendar</div>
+      <p class="section-desc">A visual month-by-month timeline of all bookings across all rooms.</p>
+
+      <div class="where-to">
+        <strong>Where to find it</strong>
+        Drawer ☰ → <strong>Calendar</strong> <em>or</em> Bottom nav → Calendar icon
+      </div>
+
+      <h3>How to Read the Calendar</h3>
+      <ul>
+        <li>Rows = Rooms (room number and type on the left, sticky as you scroll horizontally).</li>
+        <li>Columns = Days of the month.</li>
+        <li>Colored bars = Bookings (spanning from check-in to check-out date). Guest name is shown on the bar.</li>
+        <li><strong>Available row</strong> — shows the count of rooms available on each day. Green = rooms available,
+          Red = fully booked.</li>
+      </ul>
+
+      <h3>Bar Colors</h3>
+      <table class="status-table">
+        <thead>
+          <tr>
+            <th>Color</th>
+            <th>Meaning</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td style="color:#1B7F4B; font-weight:700;">Green bar</td>
+            <td>Confirmed booking (upcoming)</td>
+          </tr>
+          <tr>
+            <td style="color:#1B6A8F; font-weight:700;">Blue bar</td>
+            <td>Checked-in (guest currently in room)</td>
+          </tr>
+          <tr>
+            <td style="color:#8B5E00; font-weight:700;">Gold bar</td>
+            <td>Pending booking</td>
+          </tr>
+          <tr>
+            <td style="color:#45464E; font-weight:700;">Grey bar</td>
+            <td>Checked-out (past stay)</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>Navigation</h3>
+      <p>Use the ← and → arrows to go to the previous or next month. Tap the month/year label to jump to a specific
+        month using a picker.</p>
+
+      <h3>Filtering the Calendar</h3>
+      <p>Use the search bar at the top to filter by <strong>room number</strong> or <strong>guest name</strong>. The
+        calendar hides non-matching rows in real time.</p>
+
+      <h3>Tapping a Booking Bar</h3>
+      <p>Tap any booking bar on the calendar to open the full Booking Details screen for that booking.</p>
+    </section>
+
+
+    <!-- ══════════════════════════════════════════════════════════ -->
+    <!-- 13. BILLING & INVOICES                                     -->
+    <!-- ══════════════════════════════════════════════════════════ -->
+    <section class="section" id="billing">
+      <div class="section-title">Billing &amp; Invoices</div>
+      <p class="section-desc">A record of all completed stays with downloadable GST-compliant invoices.</p>
+
+      <div class="where-to">
+        <strong>Where to find it</strong>
+        Drawer ☰ → <strong>Billing</strong>
+      </div>
+
+      <h3>Invoice List</h3>
+      <p>Every <span class="chip checked-out">Checked-out</span> booking automatically appears here. Each entry shows
+        guest name, booking reference, room number, checkout date, and the total amount. Tap any entry to view the full
+        checkout summary.</p>
+
+      <h3>How the Bill is Calculated</h3>
+      <div class="card">
+        <div class="card-title">Billing Formula</div>
+        <ol>
+          <li><strong>Room Charges</strong> = (Weekday nights × weekday rate) + (Weekend nights × weekend rate)</li>
+          <li><strong>+ Special Fees</strong> = Early check-in fee + Late checkout fee</li>
+          <li><strong>+ Add-On Services</strong> = Sum of all service prices</li>
+          <li><strong>= Subtotal</strong></li>
+          <li><strong>+ GST (if enabled)</strong> = CGST 9% + SGST 9% = 18% on Subtotal</li>
+          <li><strong>= Gross Total</strong></li>
+          <li><strong>− Discount</strong> (if applied)</li>
+          <li><strong>= Net Payable</strong></li>
+          <li><strong>− Payments Recorded</strong></li>
+          <li><strong>= Balance Due</strong></li>
+        </ol>
+      </div>
+
+      <h3>What the Invoice PDF Contains</h3>
+      <ul>
+        <li>Property name, logo, address, GSTIN, PAN.</li>
+        <li>Invoice number, date (checkout date).</li>
+        <li>Guest name, address, ID proof details.</li>
+        <li>Room details, stay dates, number of nights.</li>
+        <li>Itemized charges with GST breakdown.</li>
+        <li>Discount (if applied) with reason.</li>
+        <li>All payment records with modes and dates.</li>
+        <li>Final balance (should be ₹0 after full payment).</li>
+      </ul>
+
+      <h3>Setting Up GST</h3>
+      <div class="where-to">
+        <strong>Where to configure</strong>
+        Settings → <strong>Billing Setup</strong>
+      </div>
+      <p>Toggle <strong>Enable GST Billing</strong> on or off. When on, 18% GST (9% CGST + 9% SGST) is calculated on all
+        room and service charges and shown separately on the invoice. Add your GSTIN and PAN in Settings → Property
+        Details.</p>
+    </section>
+
+
+    <!-- ══════════════════════════════════════════════════════════ -->
+    <!-- 14. REPORTS                                                -->
+    <!-- ══════════════════════════════════════════════════════════ -->
+    <section class="section" id="reports">
+      <div class="section-title">Reports &amp; Analytics</div>
+      <p class="section-desc">Export booking and guest data for accounting, compliance, or business analysis.</p>
+
+      <div class="where-to">
+        <strong>Where to find it</strong>
+        Drawer ☰ → <strong>Reports</strong>
+      </div>
+
+      <h3>Booking Reports</h3>
+      <p>Filter by date range, date basis (check-in date / check-out date / created date), booking status, specific
+        room, amount range, or search by guest name / booking reference. Export results as a <strong>CSV file</strong>
+        containing: booking ref, guest name, room, check-in, check-out, amount, status.</p>
+
+      <h3>Customer Reports</h3>
+      <p>Filter guests by date range, minimum visit count, and search by name / phone / city / state. Export as
+        <strong>CSV</strong> containing: guest name, phone, email, city, state, total visits, total spent.
+      </p>
+
+      <h3>Summary Statistics</h3>
+      <ul>
+        <li><strong>Total Revenue</strong> — sum of all booking totals in the filtered period.</li>
+        <li><strong>Total Guests</strong> — unique guests in the filtered period.</li>
+        <li><strong>Average Booking Value</strong> — revenue ÷ bookings.</li>
+        <li><strong>Room Utilization</strong> — percentage of available room-nights that were booked.</li>
+      </ul>
+    </section>
+
+
+    <!-- ══════════════════════════════════════════════════════════ -->
+    <!-- 15. SETTINGS                                               -->
+    <!-- ══════════════════════════════════════════════════════════ -->
+    <section class="section" id="settings">
+      <div class="section-title">Settings</div>
+      <p class="section-desc">Configure your property, billing, rooms, and app appearance.</p>
+
+      <div class="where-to">
+        <strong>Where to find it</strong>
+        Drawer ☰ → <strong>Settings</strong>
+      </div>
+
+      <h3>Property Details</h3>
+      <p>Edit your property's name, tagline, address, Google Maps link, contact phone, email, <strong>GSTIN</strong>,
+        <strong>PAN</strong>, and state. Upload a property logo — this appears on invoices. Tap <strong>Save
+          Changes</strong>.
+      </p>
+
+      <h3>Add-Ons / Services</h3>
+      <p>Create and manage billable services. See the <a href="#addons">Add-On Services</a> section for full details.
+      </p>
+
+      <h3>Billing Setup</h3>
+      <p>Toggle <strong>Enable GST Billing</strong> to add CGST + SGST to all invoices. Rates are fixed at 9% each (18%
+        total) per Indian GST slab for hotel accommodation.</p>
+
+      <h3>Rooms Configuration</h3>
+      <p>Manage default check-in and check-out times, and other room-level defaults for the property.</p>
+
+      <h3>Color Theme</h3>
+      <p>Choose <strong>Auto</strong> (follows system setting), <strong>Light</strong>, or <strong>Dark</strong> theme.
+      </p>
+
+      <h3>Demo Data</h3>
+      <ul>
+        <li><strong>Load Demo Data</strong> — adds sample rooms, guests, and bookings for testing. Existing data is not
+          removed.</li>
+        <li><strong>Clear Demo Data</strong> — permanently removes all demo data. Use this after testing before going
+          live.</li>
+      </ul>
+
+      <h3>User Manual (This Document)</h3>
+      <p>Tap <strong>User Manual &amp; Help</strong> in the Settings screen to open this guide in your browser at any
+        time.</p>
+
+      <h3>Sign Out</h3>
+      <p>Tap <strong>Sign Out</strong> at the bottom of Settings. This clears all local session data and returns you to
+        the login screen. Your data (rooms, bookings, guests) is stored locally and will reload after you sign back in.
+      </p>
+    </section>
+
+
+    <!-- ══════════════════════════════════════════════════════════ -->
+    <!-- 16. GLOSSARY                                               -->
+    <!-- ══════════════════════════════════════════════════════════ -->
+    <section class="section" id="glossary">
+      <div class="section-title">Glossary</div>
+      <p class="section-desc">Quick definitions for terms used throughout the app.</p>
+
+      <table class="status-table">
+        <thead>
+          <tr>
+            <th>Term</th>
+            <th>Definition</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Booking Reference</strong></td>
+            <td>A unique ID assigned to every booking (e.g., BKG-0001). Use this to search or identify a booking
+              quickly.</td>
+          </tr>
+          <tr>
+            <td><strong>Add-On / Special Service</strong></td>
+            <td>A billable item beyond the room rate added to a booking (e.g., extra bed, laundry). Configured in
+              Settings.</td>
+          </tr>
+          <tr>
+            <td><strong>Advance Payment</strong></td>
+            <td>A partial payment collected when creating a booking. Reduces the balance due at checkout.</td>
+          </tr>
+          <tr>
+            <td><strong>Balance Due</strong></td>
+            <td>The amount still owed by the guest. Net Payable minus all recorded payments.</td>
+          </tr>
+          <tr>
+            <td><strong>CGST / SGST</strong></td>
+            <td>Central GST and State GST — 9% each, making 18% total. Applied when GST billing is enabled.</td>
+          </tr>
+          <tr>
+            <td><strong>Check-in Wizard</strong></td>
+            <td>The 4-step guided process to formally register a guest's arrival and capture ID and contact details.
+            </td>
+          </tr>
+          <tr>
+            <td><strong>Checkout Flow</strong></td>
+            <td>The process to finalize a guest's bill, record final payment, and release the room.</td>
+          </tr>
+          <tr>
+            <td><strong>Discount</strong></td>
+            <td>A deduction applied at checkout — either a fixed rupee amount or a percentage. Requires a reason.</td>
+          </tr>
+          <tr>
+            <td><strong>GSTIN</strong></td>
+            <td>GST Identification Number of your property. Printed on tax invoices.</td>
+          </tr>
+          <tr>
+            <td><strong>No Show</strong></td>
+            <td>A booking status for guests who had a confirmed reservation but did not arrive and did not cancel.</td>
+          </tr>
+          <tr>
+            <td><strong>OTA</strong></td>
+            <td>Online Travel Agency — booking source like MakeMyTrip, Booking.com, etc.</td>
+          </tr>
+          <tr>
+            <td><strong>PAN</strong></td>
+            <td>Permanent Account Number — printed on invoices for tax compliance.</td>
+          </tr>
+          <tr>
+            <td><strong>Swipe to Confirm</strong></td>
+            <td>An intentional gesture (slide thumb right) used to finalize check-in or checkout, preventing accidental
+              taps.</td>
+          </tr>
+          <tr>
+            <td><strong>Visit Count</strong></td>
+            <td>Number of times a guest has stayed at your property (completed check-outs).</td>
+          </tr>
+          <tr>
+            <td><strong>Weekend Rate</strong></td>
+            <td>A higher room rate applied on Friday, Saturday, and Sunday nights if configured for a room.</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <hr class="divider" />
+      <p style="text-align:center; color: var(--outline); font-size: 13px;">
+        ResortLog &nbsp;·&nbsp; Built for the Indian hospitality market &nbsp;·&nbsp; Android &nbsp;·&nbsp; &copy;
+        Sahoo Soft Technologies
+      </p>
+    </section>
+
+  </main>
+
+  <script>
+    // ── Theme toggle ──────────────────────────────────────────────
+    function applyTheme(dark) {
+      document.documentElement.setAttribute('data-theme', dark ? 'dark' : 'light');
+      document.getElementById('toggle-icon').textContent = dark ? '🌙' : '☀️';
+      document.getElementById('toggle-label').textContent = dark ? 'Dark Mode' : 'Light Mode';
+    }
+
+    function toggleTheme() {
+      const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+      const next = !isDark;
+      applyTheme(next);
+      try { localStorage.setItem('rl-theme', next ? 'dark' : 'light'); } catch (e) { }
+    }
+
+    // Restore saved preference on load
+    (function () {
+      let saved = 'light';
+      try { saved = localStorage.getItem('rl-theme') || 'light'; } catch (e) { }
+      applyTheme(saved === 'dark');
+    })();
+
+    // ── Active sidebar link on scroll ────────────────────────────
+    const sections = document.querySelectorAll('.section');
+    const links = document.querySelectorAll('#sidebar nav a');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          links.forEach(l => l.classList.remove('active'));
+          const active = document.querySelector(`#sidebar nav a[href="#${entry.target.id}"]`);
+          if (active) active.classList.add('active');
+        }
+      });
+    }, { rootMargin: '-20% 0px -70% 0px' });
+    sections.forEach(s => observer.observe(s));
+  </script>
+</body>
+
+</html>

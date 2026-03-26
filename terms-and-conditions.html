@@ -1,0 +1,866 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Terms &amp; Conditions — ResortLog</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    /* ── Design tokens — Light (matches app LightColors) ───────────── */
+    :root {
+      --primary:         #041534;
+      --primary-light:   #1B2A4A;
+      --secondary:       #745A27;
+      --secondary-bg:    #FFF0CC;
+      --secondary-text:  #3D2A00;
+      --bg:              #FAF9F6;
+      --surface:         #FFFFFF;
+      --surface-var:     #F4F3F0;
+      --on-surface:      #041534;
+      --on-surface-var:  #45464E;
+      --outline:         #78787A;
+      --outline-var:     #C8C7C4;
+      --error:           #C0392B;
+      --error-bg:        #FFEDEA;
+      --error-text:      #8C1B12;
+      --green:           #1B7F4B;
+      --green-bg:        #E8F8EF;
+      --green-text:      #0D5C32;
+      --shadow:          rgba(4,21,52,0.10);
+      --header-bg:       linear-gradient(135deg, #041534 0%, #1B2A4A 100%);
+      --header-border:   rgba(255,255,255,0.08);
+      --toggle-bg:       rgba(255,255,255,0.12);
+      --toggle-color:    rgba(255,255,255,0.85);
+      --toggle-hover:    rgba(255,255,255,0.20);
+    }
+
+    /* ── Design tokens — Dark (matches app DarkColors) ─────────────── */
+    [data-theme="dark"] {
+      --primary:         #8AB4E8;
+      --primary-light:   #1B2A4A;
+      --secondary:       #E8C27A;
+      --secondary-bg:    #3D2E00;
+      --secondary-text:  #FFE0A0;
+      --bg:              #0D1220;
+      --surface:         #121A28;
+      --surface-var:     #1B2535;
+      --on-surface:      #E0E8F4;
+      --on-surface-var:  #A0B0C8;
+      --outline:         #5A6E88;
+      --outline-var:     #2E3D52;
+      --error:           #FFB4AB;
+      --error-bg:        #3E1A15;
+      --error-text:      #E69A8D;
+      --green:           #6EE7A0;
+      --green-bg:        #182A20;
+      --green-text:      #6EE7A0;
+      --shadow:          rgba(0,0,0,0.40);
+      --header-bg:       linear-gradient(135deg, #0A1020 0%, #1B2A4A 100%);
+      --header-border:   rgba(255,255,255,0.05);
+      --toggle-bg:       rgba(138,180,232,0.14);
+      --toggle-color:    #8AB4E8;
+      --toggle-hover:    rgba(138,180,232,0.24);
+    }
+
+    /* ── Reset & base ───────────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Manrope', sans-serif;
+      background: var(--bg);
+      color: var(--on-surface);
+      font-size: 15px;
+      line-height: 1.7;
+      padding: 0 0 80px;
+      transition: background 0.25s, color 0.25s;
+    }
+    a { color: var(--secondary); }
+    a:hover { text-decoration: underline; }
+    p { margin-bottom: 12px; }
+    p:last-child { margin-bottom: 0; }
+
+    /* ── Header ─────────────────────────────────────────────────────── */
+    header {
+      background: var(--header-bg);
+      border-bottom: 1px solid var(--header-border);
+      padding: 40px 24px 32px;
+      text-align: center;
+      position: relative;
+    }
+    .logo-mark {
+      display: inline-flex; align-items: center;
+      gap: 10px; margin-bottom: 14px;
+    }
+    .logo-icon {
+      width: 40px; height: 40px;
+      border-radius: 10px; flex-shrink: 0;
+      object-fit: cover; display: block;
+    }
+    .logo-name { font-size: 22px; font-weight: 800; color: #fff; letter-spacing: -0.3px; }
+    .company-name {
+      display: block; font-size: 13px; font-weight: 600;
+      color: rgba(255,255,255,0.50); letter-spacing: 1px;
+      text-transform: uppercase; margin-bottom: 12px;
+    }
+    header h1 {
+      font-size: 30px; font-weight: 800; color: #fff;
+      margin-bottom: 10px; letter-spacing: -0.5px;
+    }
+    .updated-badge {
+      display: inline-block;
+      background: rgba(255,255,255,0.10);
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 999px; padding: 4px 14px;
+      font-size: 12.5px; font-weight: 500;
+      color: rgba(255,255,255,0.65);
+    }
+
+    /* ── Theme toggle ────────────────────────────────────────────────── */
+    #theme-toggle {
+      position: absolute; top: 20px; right: 20px;
+      display: flex; align-items: center; gap: 7px;
+      padding: 7px 12px; border-radius: 10px;
+      background: var(--toggle-bg); color: var(--toggle-color);
+      border: none; cursor: pointer;
+      font-family: 'Manrope', sans-serif;
+      font-size: 12.5px; font-weight: 600;
+      transition: background 0.15s;
+    }
+    #theme-toggle:hover { background: var(--toggle-hover); }
+    .toggle-icon { font-size: 14px; line-height: 1; }
+    .toggle-track {
+      width: 30px; height: 17px; border-radius: 9px;
+      background: rgba(255,255,255,0.15);
+      position: relative; transition: background 0.2s; flex-shrink: 0;
+    }
+    [data-theme="dark"] .toggle-track { background: var(--primary); }
+    .toggle-thumb {
+      position: absolute; top: 2px; left: 2px;
+      width: 13px; height: 13px; border-radius: 50%;
+      background: rgba(255,255,255,0.6);
+      transition: transform 0.2s, background 0.2s;
+    }
+    [data-theme="dark"] .toggle-thumb { transform: translateX(13px); background: #fff; }
+
+    /* ── Layout ──────────────────────────────────────────────────────── */
+    .container { max-width: 820px; margin: 0 auto; padding: 0 24px; }
+    .intro {
+      margin: 36px auto 0; max-width: 820px;
+      padding: 0 24px; color: var(--on-surface-var);
+      font-size: 15px; line-height: 1.8;
+    }
+
+    /* ── TOC ─────────────────────────────────────────────────────────── */
+    .toc {
+      background: var(--surface);
+      border: 1px solid var(--outline-var);
+      border-radius: 16px; padding: 24px 28px;
+      margin: 32px auto 0;
+      width: calc(100% - 48px); max-width: 820px;
+      box-shadow: 0 2px 12px var(--shadow);
+      transition: background 0.25s, border-color 0.25s;
+    }
+    .toc h2 {
+      font-size: 11px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 1.5px;
+      color: var(--secondary); margin-bottom: 16px;
+    }
+    .toc ol { columns: 2; column-gap: 32px; list-style: none; counter-reset: toc; }
+    @media (max-width: 560px) { .toc ol { columns: 1; } }
+    .toc li { counter-increment: toc; break-inside: avoid; margin-bottom: 7px; }
+    .toc a {
+      color: var(--on-surface-var); text-decoration: none;
+      font-size: 13.5px; display: flex; align-items: baseline;
+      gap: 8px; transition: color 0.15s;
+    }
+    .toc a::before {
+      content: counter(toc, decimal-leading-zero) ".";
+      color: var(--secondary); font-size: 11px;
+      font-weight: 700; flex-shrink: 0;
+    }
+    .toc a:hover { color: var(--on-surface); }
+
+    /* ── Sections ────────────────────────────────────────────────────── */
+    section { margin-top: 48px; scroll-margin-top: 24px; }
+    .section-header { display: flex; align-items: center; gap: 14px; margin-bottom: 20px; }
+    .section-number {
+      background: var(--primary); color: #fff;
+      font-size: 13px; font-weight: 700;
+      width: 32px; height: 32px; border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0; transition: background 0.25s;
+    }
+    section h2 { font-size: 20px; font-weight: 800; color: var(--on-surface); letter-spacing: -0.3px; }
+
+    /* ── Subsections ─────────────────────────────────────────────────── */
+    .subsection {
+      background: var(--surface);
+      border: 1px solid var(--outline-var);
+      border-radius: 14px; padding: 20px 24px;
+      margin-bottom: 12px;
+      box-shadow: 0 1px 6px var(--shadow);
+      transition: background 0.25s, border-color 0.25s;
+    }
+    .subsection h3 {
+      font-size: 13.5px; font-weight: 700;
+      color: var(--secondary); margin-bottom: 12px;
+    }
+
+    /* ── Lists ───────────────────────────────────────────────────────── */
+    ul, ol { padding-left: 20px; }
+    li { color: var(--on-surface-var); margin-bottom: 6px; }
+    li strong { color: var(--on-surface); }
+
+    /* ── Callouts ────────────────────────────────────────────────────── */
+    .callout {
+      border-left: 3px solid var(--primary);
+      background: var(--surface-var); border-radius: 0 10px 10px 0;
+      padding: 14px 18px; margin: 16px 0;
+      font-size: 14px; color: var(--on-surface-var);
+      transition: background 0.25s;
+    }
+    .callout.warning { border-left-color: var(--secondary); background: var(--secondary-bg); color: var(--secondary-text); }
+    .callout.danger  { border-left-color: var(--error);     background: var(--error-bg);     color: var(--error-text); }
+    .callout.success { border-left-color: var(--green);     background: var(--green-bg);     color: var(--green-text); }
+    .callout strong { color: var(--on-surface); }
+    .callout.warning strong { color: var(--secondary-text); }
+    .callout.danger  strong { color: var(--error-text); }
+    .callout.success strong { color: var(--green-text); }
+
+    /* ── Highlight box (for key clauses) ─────────────────────────────── */
+    .key-clause {
+      background: var(--secondary-bg);
+      border: 1px solid rgba(116,90,39,0.25);
+      border-radius: 14px; padding: 18px 22px; margin: 16px 0;
+      transition: background 0.25s, border-color 0.25s;
+    }
+    .key-clause .kc-label {
+      font-size: 10px; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 1.2px; color: var(--secondary); margin-bottom: 8px; display: block;
+    }
+    .key-clause p { color: var(--secondary-text); font-size: 14px; margin-bottom: 0; }
+
+    /* ── "We do not" list ────────────────────────────────────────────── */
+    .dont-list { list-style: none; padding: 0; margin-top: 10px; }
+    .dont-list li { padding-left: 22px; position: relative; color: var(--on-surface-var); margin-bottom: 6px; }
+    .dont-list li::before { content: '✕'; position: absolute; left: 0; color: var(--error); font-size: 11px; font-weight: 700; top: 4px; }
+
+    /* ── Contact card ────────────────────────────────────────────────── */
+    .contact-card {
+      background: var(--surface); border: 1px solid var(--outline-var);
+      border-radius: 14px; padding: 20px 24px; margin: 16px 0;
+      max-width: 460px; box-shadow: 0 1px 6px var(--shadow);
+      transition: background 0.25s, border-color 0.25s;
+    }
+    .contact-row { display: flex; align-items: center; gap: 12px; font-size: 14.5px; margin-bottom: 10px; }
+    .contact-row:last-child { margin-bottom: 0; }
+    .contact-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: var(--outline); width: 70px; flex-shrink: 0; }
+    .contact-value { color: var(--secondary); font-weight: 700; }
+
+    code {
+      background: var(--surface-var); border: 1px solid var(--outline-var);
+      border-radius: 5px; padding: 2px 7px; font-size: 13px;
+      font-family: 'Cascadia Code', 'Fira Code', 'Courier New', monospace;
+      color: var(--on-surface); transition: background 0.25s;
+    }
+
+    /* ── Footer ──────────────────────────────────────────────────────── */
+    footer {
+      margin-top: 64px; border-top: 1px solid var(--outline-var);
+      padding: 32px 24px; text-align: center;
+      color: var(--outline); font-size: 13px; line-height: 1.8;
+      max-width: 820px; margin-left: auto; margin-right: auto;
+      transition: border-color 0.25s;
+    }
+    footer a { color: var(--secondary); text-decoration: none; }
+    footer a:hover { text-decoration: underline; }
+
+    @media (max-width: 640px) {
+      header h1 { font-size: 22px; }
+      #theme-toggle .toggle-label { display: none; }
+      #theme-toggle { padding: 7px 9px; gap: 4px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ══ Header ═══════════════════════════════════════════════════════════════ -->
+<header>
+  <button id="theme-toggle" onclick="toggleTheme()" aria-label="Toggle dark mode">
+    <span class="toggle-icon" id="toggle-icon">☀️</span>
+    <span class="toggle-label" id="toggle-label">Light Mode</span>
+    <span class="toggle-track"><span class="toggle-thumb"></span></span>
+  </button>
+
+  <div class="logo-mark">
+    <img src="./icon.png" alt="ResortLog" class="logo-icon" />
+    <span class="logo-name">ResortLog</span>
+  </div>
+  <span class="company-name">Sahoo Soft Technologies</span>
+  <h1>Terms &amp; Conditions</h1>
+  <span class="updated-badge">Effective date: March 2026</span>
+</header>
+
+<!-- ══ Intro ════════════════════════════════════════════════════════════════ -->
+<p class="intro">
+  These Terms &amp; Conditions ("Terms") govern your access to and use of the <strong>ResortLog</strong>
+  mobile application ("the App"), developed and operated by <strong>Mohamed Saheed</strong>, trading as
+  <strong>Sahoo Soft Technologies</strong>, Coimbatore, Tamil Nadu, India ("we", "us", "our").
+  By <strong>downloading, installing, creating an account, or using the App in any way</strong>, you
+  ("the Subscriber", "you") agree to be bound by these Terms and our
+  <a href="./privacy-policy.html">Privacy Policy</a>, which is incorporated herein by reference.
+  <strong>Creating an account constitutes your full acceptance of these Terms.</strong>
+  If you do not agree, do not create an account or use the App.
+</p>
+
+<!-- ══ TOC ══════════════════════════════════════════════════════════════════ -->
+<div class="toc container">
+  <h2>Contents</h2>
+  <ol>
+    <li><a href="#s1">The Service</a></li>
+    <li><a href="#s2">Eligibility</a></li>
+    <li><a href="#s3">Subscription &amp; Pricing</a></li>
+    <li><a href="#s4">Payment &amp; Billing</a></li>
+    <li><a href="#s5">Free Trial &amp; Cancellation</a></li>
+    <li><a href="#s6">Your Account</a></li>
+    <li><a href="#s7">Your Data &amp; Ownership</a></li>
+    <li><a href="#s8">Data Infrastructure (Firebase)</a></li>
+    <li><a href="#s9">Data Inactivity &amp; Deletion</a></li>
+    <li><a href="#s10">Acceptable Use</a></li>
+    <li><a href="#s11">Limitation of Liability</a></li>
+    <li><a href="#s12">Service Availability</a></li>
+    <li><a href="#s13">Termination</a></li>
+    <li><a href="#s14">Changes to These Terms</a></li>
+    <li><a href="#s15">Governing Law &amp; Jurisdiction</a></li>
+    <li><a href="#s16">Contact Us</a></li>
+  </ol>
+</div>
+
+<!-- ══ Sections ═════════════════════════════════════════════════════════════ -->
+<div class="container">
+
+  <!-- 1 -->
+  <section id="s1">
+    <div class="section-header">
+      <div class="section-number">1</div>
+      <h2>The Service</h2>
+    </div>
+    <p>
+      ResortLog is a hotel and resort management application designed for property owners, managers, and
+      staff operating in India. The App provides tools to manage rooms, guest bookings, check-ins,
+      check-outs, billing, GST-compliant invoices, and occupancy reports.
+    </p>
+    <p>
+      ResortLog is a <strong>business-to-business (B2B) software tool</strong>. You, the property operator,
+      use it to manage your own business operations. We provide the software; you are responsible for how
+      you use it within your business and in relation to your guests.
+    </p>
+    <div class="callout">
+      <strong>We are a tool provider, not a data manager.</strong>
+      All guest data, booking records, and financial information entered into the App belong to you.
+      We do not access, analyse, or use your operational data for any purpose other than providing
+      the App's functionality to you.
+    </div>
+  </section>
+
+  <!-- 2 -->
+  <section id="s2">
+    <div class="section-header">
+      <div class="section-number">2</div>
+      <h2>Eligibility</h2>
+    </div>
+    <ul>
+      <li>You must be at least 18 years of age to use this App.</li>
+      <li>You must be a property owner, manager, or authorised staff member of a registered hospitality business in India.</li>
+      <li>By using the App, you confirm that the information you provide during registration is accurate and truthful.</li>
+      <li>One account is intended for use by one property. If you manage multiple properties, contact us for multi-property options.</li>
+    </ul>
+  </section>
+
+  <!-- 3 -->
+  <section id="s3">
+    <div class="section-header">
+      <div class="section-number">3</div>
+      <h2>Subscription &amp; Pricing</h2>
+    </div>
+
+    <div class="subsection">
+      <h3>3.1 — Subscription Model</h3>
+      <p>
+        Access to ResortLog requires an active paid subscription. The App is offered on a
+        <strong>monthly subscription</strong> basis. The current subscription fee is approximately
+        <strong>₹300 per month</strong> per property.
+      </p>
+    </div>
+
+    <div class="subsection">
+      <h3>3.2 — Price Changes</h3>
+      <p>
+        We reserve the right to change the subscription price at any time. If the price changes, we will
+        notify you via the App or email at least <strong>30 days before</strong> the new price takes effect.
+      </p>
+      <div class="key-clause">
+        <span class="kc-label">Important — Price Acceptance</span>
+        <p>
+          Continued use of the App after a price change becomes effective constitutes your acceptance of the
+          new price. If you do not agree with the new pricing, you must cancel your subscription before the
+          new price applies. We do not offer refunds for the difference between old and new pricing on
+          already-paid billing periods.
+        </p>
+      </div>
+    </div>
+
+    <div class="subsection">
+      <h3>3.3 — What the Subscription Includes</h3>
+      <ul>
+        <li>Full access to all App features: bookings, check-in/out, billing, reports, guest management, and room management.</li>
+        <li>Access to app updates and new features released during your subscription period.</li>
+        <li>Email support for technical issues (response within 7 business days).</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 4 -->
+  <section id="s4">
+    <div class="section-header">
+      <div class="section-number">4</div>
+      <h2>Payment &amp; Billing</h2>
+    </div>
+    <div class="subsection">
+      <h3>4.1 — Billing via Google Play</h3>
+      <p>
+        Subscriptions are processed through the <strong>Google Play Store</strong>. All billing, payment
+        processing, and subscription management is handled by Google Play. By subscribing, you also agree
+        to <a href="https://payments.google.com/payments/apis-secure/get_legal_document?ldo=0&ldt=googlepaymentsterms&ldl=en" target="_blank" rel="noopener">Google Play's Terms of Service</a>.
+      </p>
+    </div>
+    <div class="subsection">
+      <h3>4.2 — Refund Policy</h3>
+      <p>
+        Subscription fees are generally <strong>non-refundable</strong>. Refunds for recent purchases may
+        be available through Google Play's standard refund window (typically within 48 hours of purchase).
+        To request a refund, use the Google Play refund process directly. We do not process refunds outside
+        of Google Play's mechanisms.
+      </p>
+      <p>
+        We do not offer pro-rated refunds for cancellation mid-month. You will retain access to the App
+        until the end of the paid billing period.
+      </p>
+    </div>
+    <div class="subsection">
+      <h3>4.3 — Failed Payments</h3>
+      <p>
+        If a payment fails, Google Play will attempt to retry the charge. If the payment remains
+        unsuccessful after retries, your access to the App may be suspended until the subscription is
+        renewed or the payment issue is resolved.
+      </p>
+    </div>
+  </section>
+
+  <!-- 5 -->
+  <section id="s5">
+    <div class="section-header">
+      <div class="section-number">5</div>
+      <h2>Free Trial &amp; Cancellation</h2>
+    </div>
+    <div class="subsection">
+      <h3>5.1 — Free Trial</h3>
+      <p>
+        We may offer a free trial period at our discretion. If a free trial is offered, it will be
+        clearly communicated in the App or Play Store listing. At the end of the trial, the subscription
+        automatically converts to a paid plan unless cancelled before the trial ends.
+      </p>
+    </div>
+    <div class="subsection">
+      <h3>5.2 — Cancellation</h3>
+      <p>
+        You may cancel your subscription at any time through the Google Play Store. Cancellation stops
+        future billing. You will continue to have access to the App until the end of your current
+        paid billing period, after which access will be revoked.
+      </p>
+      <div class="callout warning">
+        <strong>Your data after cancellation:</strong>
+        After your subscription ends, your data remains stored on your device (local SQLite database)
+        and you can continue to view it without an active subscription. However, features requiring
+        account authentication may become unavailable. See Section 9 for the data inactivity policy.
+      </div>
+    </div>
+  </section>
+
+  <!-- 6 -->
+  <section id="s6">
+    <div class="section-header">
+      <div class="section-number">6</div>
+      <h2>Your Account</h2>
+    </div>
+    <ul>
+      <li>You are responsible for maintaining the confidentiality of your account credentials (email and password).</li>
+      <li>You are responsible for all activity that occurs under your account.</li>
+      <li>Do not share your account credentials with unauthorised persons.</li>
+      <li>If you suspect unauthorised access to your account, notify us immediately at <a href="mailto:sahoodmail@gmail.com">sahoodmail@gmail.com</a>.</li>
+      <li>One account corresponds to one property. Creating multiple accounts to circumvent subscription requirements is not permitted.</li>
+    </ul>
+  </section>
+
+  <!-- 7 -->
+  <section id="s7">
+    <div class="section-header">
+      <div class="section-number">7</div>
+      <h2>Your Data &amp; Ownership</h2>
+    </div>
+    <div class="subsection">
+      <h3>7.1 — You Own Your Data</h3>
+      <p>
+        All data you enter into ResortLog — including guest profiles, booking records, payment records,
+        room information, and property settings — belongs entirely to <strong>you</strong>.
+        We make no claim of ownership over your operational data.
+      </p>
+    </div>
+    <div class="subsection">
+      <h3>7.2 — Our Role</h3>
+      <p>
+        Sahoo Soft Technologies acts solely as a <strong>data processor</strong> — we provide the
+        software infrastructure that allows you to store and manage your data. You are the
+        <strong>data controller</strong> and are responsible for:
+      </p>
+      <ul>
+        <li>Ensuring guest data is collected with appropriate consent and for legitimate hospitality purposes.</li>
+        <li>Complying with applicable Indian laws regarding guest registration (e.g. Form C requirements for hotels).</li>
+        <li>Responding to any data access or deletion requests made by your guests directly to you.</li>
+      </ul>
+    </div>
+    <div class="subsection">
+      <h3>7.3 — Data Export</h3>
+      <p>
+        You can export your booking and guest data at any time in CSV format using the
+        <strong>Reports</strong> screen within the App. We recommend exporting your data periodically
+        as a backup.
+      </p>
+    </div>
+    <div class="subsection">
+      <h3>7.4 — Data Deletion Requests</h3>
+      <p>
+        If you wish to have all your account data permanently deleted, you may request this by emailing
+        us at <a href="mailto:sahoodmail@gmail.com">sahoodmail@gmail.com</a> with the subject line
+        <code>ResortLog Data Deletion Request</code>. We will process the request within
+        <strong>7 business days</strong>. Deletion is permanent and cannot be undone.
+        See our <a href="#">Privacy Policy</a> for full details.
+      </p>
+    </div>
+    <div class="subsection">
+      <h3>7.5 — We Do Not</h3>
+      <ul class="dont-list">
+        <li>Access, read, or use your guest or booking data for any commercial purpose.</li>
+        <li>Sell or share your operational data with third parties.</li>
+        <li>Mine your data for analytics, advertising, or profiling.</li>
+        <li>Store or process your data beyond what is technically required to run the App.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 8 -->
+  <section id="s8">
+    <div class="section-header">
+      <div class="section-number">8</div>
+      <h2>Data Infrastructure (Firebase)</h2>
+    </div>
+    <p>
+      ResortLog uses <strong>Firebase</strong> (a Google Cloud platform) for user authentication.
+      Operational data (bookings, guests, rooms, payments) is stored in a <strong>local SQLite database
+      on your device</strong> and is not transmitted to Firebase servers during normal use.
+    </p>
+    <p>
+      Authentication data (your email address and login credentials) is managed by Firebase Authentication.
+      By using the App, you also agree to <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Google's Privacy Policy</a>
+      in so far as it applies to Firebase Authentication services.
+    </p>
+    <div class="callout">
+      <strong>Your operational data stays on your device.</strong>
+      Bookings, guest profiles, payments, and room records are stored locally on your Android device.
+      We do not maintain a copy of this data on our servers. This means you are responsible for
+      device backups. If you lose or reset your device without exporting your data, we cannot recover it.
+    </div>
+  </section>
+
+  <!-- 9 -->
+  <section id="s9">
+    <div class="section-header">
+      <div class="section-number">9</div>
+      <h2>Data Inactivity &amp; Deletion</h2>
+    </div>
+    <div class="subsection">
+      <h3>9.1 — Inactivity Period</h3>
+      <p>
+        An account is considered <strong>inactive</strong> if there has been no login or app usage for
+        a continuous period of <strong>180 days (approximately 6 months)</strong>.
+      </p>
+    </div>
+    <div class="subsection">
+      <h3>9.2 — Notice Before Deletion</h3>
+      <p>
+        Before any data deletion occurs due to inactivity, we will send a warning notification to the
+        email address registered with your account. You will have <strong>30 days</strong> from the date
+        of the warning to log back in and reactivate your account. If no action is taken within
+        those 30 days, data deletion will proceed.
+      </p>
+    </div>
+    <div class="subsection">
+      <h3>9.3 — What Gets Deleted</h3>
+      <p>Upon inactivity-triggered deletion, the following will be permanently removed:</p>
+      <ul>
+        <li>Your Firebase Authentication account (login credentials).</li>
+        <li>Any account-level data associated with your property ID in our systems.</li>
+      </ul>
+      <div class="callout warning">
+        <strong>Local data is not automatically deleted.</strong>
+        Data stored in the local SQLite database on your device (bookings, guests, rooms) will remain
+        on your device until you uninstall the App or manually clear its storage. Only the server-side
+        account (Firebase authentication) is deleted due to inactivity.
+      </div>
+    </div>
+    <div class="subsection">
+      <h3>9.4 — Active Subscribers</h3>
+      <p>
+        If you have an active paid subscription, the inactivity deletion policy does not apply as long
+        as your subscription remains active and payments are current.
+      </p>
+    </div>
+  </section>
+
+  <!-- 10 -->
+  <section id="s10">
+    <div class="section-header">
+      <div class="section-number">10</div>
+      <h2>Acceptable Use</h2>
+    </div>
+    <p>You agree to use ResortLog only for lawful purposes related to hospitality property management. You must not:</p>
+    <ul>
+      <li>Use the App to store false, fraudulent, or fabricated guest records.</li>
+      <li>Attempt to reverse-engineer, decompile, or extract source code from the App.</li>
+      <li>Use the App in any way that violates Indian law, including the IT Act 2000 or the DPDP Act 2023.</li>
+      <li>Share your account credentials or allow unauthorised access to your account.</li>
+      <li>Use the App to evade legal guest registration requirements applicable to hotels in India.</li>
+      <li>Attempt to circumvent subscription requirements (e.g. by creating multiple accounts).</li>
+    </ul>
+    <p>We reserve the right to suspend or terminate accounts found to be in violation of these acceptable use rules without prior notice.</p>
+  </section>
+
+  <!-- 11 -->
+  <section id="s11">
+    <div class="section-header">
+      <div class="section-number">11</div>
+      <h2>Limitation of Liability</h2>
+    </div>
+
+    <div class="key-clause">
+      <span class="kc-label">Please Read Carefully</span>
+      <p>
+        ResortLog is developed and maintained by a sole developer. The following limitations apply to the
+        fullest extent permitted under applicable Indian law.
+      </p>
+    </div>
+
+    <div class="subsection">
+      <h3>11.1 — "As Is" Basis</h3>
+      <p>
+        The App is provided <strong>"as is" and "as available"</strong> without warranties of any kind,
+        whether express or implied. We do not warrant that the App will be error-free, uninterrupted,
+        or free from bugs at all times.
+      </p>
+    </div>
+
+    <div class="subsection">
+      <h3>11.2 — No Liability for Data Loss</h3>
+      <p>
+        Since operational data is stored locally on your device, we are <strong>not responsible</strong>
+        for any data loss resulting from device failure, theft, accidental deletion, factory reset,
+        or App uninstallation. We strongly recommend regularly exporting your data using the
+        Reports screen and maintaining device backups.
+      </p>
+    </div>
+
+    <div class="subsection">
+      <h3>11.3 — No Liability for Business Losses</h3>
+      <p>We shall not be liable for any:</p>
+      <ul>
+        <li>Loss of revenue, profits, or business opportunity.</li>
+        <li>Errors in invoices, billing calculations, or GST computations arising from incorrect data entry by you.</li>
+        <li>Regulatory penalties arising from your use or misuse of the App in your business operations.</li>
+        <li>Consequential, indirect, or incidental damages of any kind.</li>
+      </ul>
+    </div>
+
+    <div class="subsection">
+      <h3>11.4 — Maximum Liability Cap</h3>
+      <p>
+        To the maximum extent permitted by law, our total liability to you for any claim arising from
+        your use of the App shall not exceed the <strong>total subscription fees you paid in the
+        3 months immediately preceding the event giving rise to the claim</strong>.
+      </p>
+    </div>
+  </section>
+
+  <!-- 12 -->
+  <section id="s12">
+    <div class="section-header">
+      <div class="section-number">12</div>
+      <h2>Service Availability</h2>
+    </div>
+    <p>
+      We aim to keep ResortLog available and functional at all times, but we do not guarantee
+      uninterrupted service. The App may be temporarily unavailable due to:
+    </p>
+    <ul>
+      <li>App updates, maintenance, or bug fixes.</li>
+      <li>Firebase / Google Cloud service outages (outside our control).</li>
+      <li>Force majeure events (natural disasters, power outages, government actions, etc.).</li>
+    </ul>
+    <p>
+      Since the App is <strong>offline-first</strong> — all operational data is stored locally on your
+      device — most App features (viewing bookings, generating invoices, check-in/out) will continue
+      to work without an internet connection. An internet connection is only required for login/authentication.
+    </p>
+  </section>
+
+  <!-- 13 -->
+  <section id="s13">
+    <div class="section-header">
+      <div class="section-number">13</div>
+      <h2>Termination</h2>
+    </div>
+    <div class="subsection">
+      <h3>13.1 — Termination by You</h3>
+      <p>
+        You may stop using the App and cancel your subscription at any time via Google Play.
+        Cancellation takes effect at the end of your current billing period.
+      </p>
+    </div>
+    <div class="subsection">
+      <h3>13.2 — Termination by Us</h3>
+      <p>We may suspend or terminate your access to the App immediately if:</p>
+      <ul>
+        <li>You violate any provision of these Terms.</li>
+        <li>Your subscription payment fails and is not resolved within a reasonable period.</li>
+        <li>We are required to do so by law or court order.</li>
+        <li>We decide to discontinue the App (see Section 13.3).</li>
+      </ul>
+    </div>
+    <div class="subsection">
+      <h3>13.3 — App Discontinuation</h3>
+      <p>
+        In the event that we decide to permanently shut down ResortLog, we will provide at least
+        <strong>60 days' advance notice</strong> via the registered email address. During this period,
+        you will have full access to the App and the ability to export all your data before service ends.
+        Any unused subscription period will be handled through Google Play's standard refund process.
+      </p>
+    </div>
+  </section>
+
+  <!-- 14 -->
+  <section id="s14">
+    <div class="section-header">
+      <div class="section-number">14</div>
+      <h2>Changes to These Terms</h2>
+    </div>
+    <p>
+      We may update these Terms from time to time to reflect changes in the App, pricing, applicable
+      law, or business practices. When we make changes:
+    </p>
+    <ul>
+      <li>We will update the effective date at the top of this page.</li>
+      <li>For significant changes (pricing, liability, new obligations), we will notify you via email or an in-app notice at least <strong>30 days in advance</strong>.</li>
+      <li>Continued use of the App after the effective date of the revised Terms constitutes your acceptance.</li>
+      <li>If you do not agree to the revised Terms, you must cancel your subscription before they take effect.</li>
+    </ul>
+  </section>
+
+  <!-- 15 -->
+  <section id="s15">
+    <div class="section-header">
+      <div class="section-number">15</div>
+      <h2>Governing Law &amp; Jurisdiction</h2>
+    </div>
+    <div class="key-clause">
+      <span class="kc-label">Jurisdiction</span>
+      <p>
+        These Terms are governed by and construed in accordance with the laws of India, including the
+        Information Technology Act, 2000, the Indian Contract Act, 1872, and applicable rules thereunder.
+        Any dispute, claim, or controversy arising out of or in connection with these Terms or your use
+        of the App shall be subject to the <strong>exclusive jurisdiction of the courts located in
+        Coimbatore, Tamil Nadu, India</strong>.
+      </p>
+    </div>
+    <p>
+      Both parties agree to attempt to resolve any dispute amicably through direct communication before
+      initiating formal legal proceedings. To raise a dispute, contact us at
+      <a href="mailto:sahoodmail@gmail.com">sahoodmail@gmail.com</a>.
+    </p>
+  </section>
+
+  <!-- 16 -->
+  <section id="s16">
+    <div class="section-header">
+      <div class="section-number">16</div>
+      <h2>Contact Us</h2>
+    </div>
+    <p>For questions about these Terms, subscription issues, or any concerns regarding the App:</p>
+    <div class="contact-card">
+      <div class="contact-row">
+        <span class="contact-label">Developer</span>
+        <span style="color: var(--on-surface); font-weight:700; font-size:14px;">Mohamed Saheed</span>
+      </div>
+      <div class="contact-row">
+        <span class="contact-label">Company</span>
+        <span style="color: var(--on-surface); font-size:14px;">Sahoo Soft Technologies</span>
+      </div>
+      <div class="contact-row">
+        <span class="contact-label">Location</span>
+        <span style="color: var(--on-surface-var); font-size:14px;">Coimbatore, Tamil Nadu, India</span>
+      </div>
+      <div class="contact-row">
+        <span class="contact-label">Email</span>
+        <a class="contact-value" href="mailto:sahoodmail@gmail.com">sahoodmail@gmail.com</a>
+      </div>
+      <div class="contact-row">
+        <span class="contact-label">Subject</span>
+        <code>ResortLog Terms Inquiry</code>
+      </div>
+    </div>
+  </section>
+
+</div><!-- /.container -->
+
+<!-- ══ Footer ═══════════════════════════════════════════════════════════════ -->
+<footer>
+  <p>
+    &copy; 2026 Mohamed Saheed &nbsp;·&nbsp; Sahoo Soft Technologies, Coimbatore, Tamil Nadu, India.<br>
+    ResortLog is an independent product. Google Play and Firebase are trademarks of Google LLC.
+  </p>
+  <p style="margin-top:10px; font-size:12px;">
+    <a href="mailto:sahoodmail@gmail.com">sahoodmail@gmail.com</a>
+  </p>
+</footer>
+
+<script>
+  function applyTheme(dark) {
+    document.documentElement.setAttribute('data-theme', dark ? 'dark' : 'light');
+    document.getElementById('toggle-icon').textContent  = dark ? '🌙' : '☀️';
+    document.getElementById('toggle-label').textContent = dark ? 'Dark Mode' : 'Light Mode';
+  }
+  function toggleTheme() {
+    const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+    const next = !isDark;
+    applyTheme(next);
+    try { localStorage.setItem('rl-tc-theme', next ? 'dark' : 'light'); } catch(e) {}
+  }
+  (function() {
+    let saved = 'light';
+    try { saved = localStorage.getItem('rl-tc-theme') || 'light'; } catch(e) {}
+    applyTheme(saved === 'dark');
+  })();
+</script>
+
+</body>
+</html>
