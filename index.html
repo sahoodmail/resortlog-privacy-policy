@@ -1,96 +1,179 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Privacy Policy — ResortLog</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
   <style>
+    /* ── Design tokens — Light (matches app LightColors) ───────────── */
     :root {
-      --bg:          #0F0E1A;
-      --surface:     #1E1B38;
-      --surface2:    #252040;
-      --border:      #302B52;
-      --accent:      #8B7FF8;
-      --accent-dim:  #5B4CF5;
-      --text:        #E8E5FF;
-      --text-muted:  #A8A0C8;
-      --text-faint:  #6B6585;
-      --note-bg:     #16142A;
-      --note-border: #8B7FF8;
-      --warn-bg:     #1a1810;
-      --warn-border: #FFB347;
-      --warn-text:   #ffe0b0;
-      --del-bg:      #1d1018;
-      --del-border:  #e06c75;
-      --del-text:    #f5a0a6;
+      --primary:         #041534;
+      --primary-light:   #1B2A4A;
+      --secondary:       #745A27;
+      --secondary-bg:    #FFF0CC;
+      --secondary-text:  #3D2A00;
+      --bg:              #FAF9F6;
+      --surface:         #FFFFFF;
+      --surface-var:     #F4F3F0;
+      --surface-high:    #EEECEA;
+      --on-surface:      #041534;
+      --on-surface-var:  #45464E;
+      --outline:         #78787A;
+      --outline-var:     #C8C7C4;
+      --error:           #C0392B;
+      --error-bg:        #FFEDEA;
+      --error-text:      #8C1B12;
+      --green:           #1B7F4B;
+      --green-bg:        #E8F8EF;
+      --green-text:      #0D5C32;
+      --shadow:          rgba(4,21,52,0.10);
+      /* header */
+      --header-bg:       linear-gradient(135deg, #041534 0%, #1B2A4A 100%);
+      --header-border:   rgba(255,255,255,0.08);
+      /* toggle */
+      --toggle-bg:       rgba(255,255,255,0.12);
+      --toggle-color:    rgba(255,255,255,0.85);
+      --toggle-hover:    rgba(255,255,255,0.20);
     }
 
+    /* ── Design tokens — Dark (matches app DarkColors) ─────────────── */
+    [data-theme="dark"] {
+      --primary:         #8AB4E8;
+      --primary-light:   #1B2A4A;
+      --secondary:       #E8C27A;
+      --secondary-bg:    #3D2E00;
+      --secondary-text:  #FFE0A0;
+      --bg:              #0D1220;
+      --surface:         #121A28;
+      --surface-var:     #1B2535;
+      --surface-high:    #1F2E40;
+      --on-surface:      #E0E8F4;
+      --on-surface-var:  #A0B0C8;
+      --outline:         #5A6E88;
+      --outline-var:     #2E3D52;
+      --error:           #FFB4AB;
+      --error-bg:        #3E1A15;
+      --error-text:      #E69A8D;
+      --green:           #6EE7A0;
+      --green-bg:        #182A20;
+      --green-text:      #6EE7A0;
+      --shadow:          rgba(0,0,0,0.40);
+      --header-bg:       linear-gradient(135deg, #0A1020 0%, #1B2A4A 100%);
+      --header-border:   rgba(255,255,255,0.05);
+      --toggle-bg:       rgba(138,180,232,0.14);
+      --toggle-color:    #8AB4E8;
+      --toggle-hover:    rgba(138,180,232,0.24);
+    }
+
+    /* ── Reset & base ───────────────────────────────────────────────── */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
 
     body {
+      font-family: 'Manrope', sans-serif;
       background: var(--bg);
-      color: var(--text);
-      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      color: var(--on-surface);
       font-size: 15px;
       line-height: 1.7;
       padding: 0 0 80px;
+      transition: background 0.25s, color 0.25s;
     }
 
-    /* ── Header ──────────────────────────────────────────── */
+    a { color: var(--secondary); }
+    a:hover { text-decoration: underline; }
+    p { margin-bottom: 12px; }
+    p:last-child { margin-bottom: 0; }
+
+    /* ── Header ─────────────────────────────────────────────────────── */
     header {
-      background: linear-gradient(135deg, #0a091a 0%, #1E1B38 60%, #16142A 100%);
-      border-bottom: 1px solid var(--border);
-      padding: 48px 24px 36px;
+      background: var(--header-bg);
+      border-bottom: 1px solid var(--header-border);
+      padding: 40px 24px 32px;
       text-align: center;
+      position: relative;
     }
+
+    .header-inner { position: relative; z-index: 1; }
 
     .logo-mark {
       display: inline-flex;
       align-items: center;
       gap: 10px;
-      margin-bottom: 16px;
+      margin-bottom: 14px;
     }
 
     .logo-icon {
-      width: 40px;
-      height: 40px;
-      background: var(--accent);
-      border-radius: 10px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 22px;
-      color: #fff;
-      font-weight: 700;
-      letter-spacing: -1px;
-      flex-shrink: 0;
+      width: 40px; height: 40px;
+      border-radius: 10px; flex-shrink: 0;
+      object-fit: cover; display: block;
     }
 
     .logo-name {
-      font-size: 22px;
-      font-weight: 700;
-      color: var(--accent);
-      letter-spacing: 0.5px;
+      font-size: 22px; font-weight: 800;
+      color: #fff; letter-spacing: -0.3px;
     }
 
     header h1 {
-      font-size: 28px;
-      font-weight: 700;
-      color: #E8E5FF;
-      margin-bottom: 8px;
+      font-size: 30px; font-weight: 800;
+      color: #fff; margin-bottom: 10px;
+      letter-spacing: -0.5px;
+    }
+
+    .company-name {
+      display: block;
+      font-size: 13px; font-weight: 600;
+      color: rgba(255,255,255,0.50);
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 12px;
     }
 
     .updated-badge {
       display: inline-block;
-      background: var(--surface2);
-      border: 1px solid var(--border);
-      border-radius: 20px;
+      background: rgba(255,255,255,0.10);
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 999px;
       padding: 4px 14px;
-      font-size: 13px;
-      color: var(--text-muted);
+      font-size: 12.5px; font-weight: 500;
+      color: rgba(255,255,255,0.65);
     }
 
-    /* ── Layout ──────────────────────────────────────────── */
+    /* ── Theme toggle (top-right of header) ─────────────────────────── */
+    #theme-toggle {
+      position: absolute;
+      top: 20px; right: 20px;
+      display: flex; align-items: center; gap: 7px;
+      padding: 7px 12px;
+      border-radius: 10px;
+      background: var(--toggle-bg);
+      color: var(--toggle-color);
+      border: none; cursor: pointer;
+      font-family: 'Manrope', sans-serif;
+      font-size: 12.5px; font-weight: 600;
+      transition: background 0.15s, color 0.15s;
+    }
+    #theme-toggle:hover { background: var(--toggle-hover); }
+    .toggle-icon { font-size: 14px; line-height: 1; }
+    .toggle-track {
+      width: 30px; height: 17px; border-radius: 9px;
+      background: rgba(255,255,255,0.15);
+      position: relative; transition: background 0.2s; flex-shrink: 0;
+    }
+    [data-theme="dark"] .toggle-track { background: var(--primary); }
+    .toggle-thumb {
+      position: absolute; top: 2px; left: 2px;
+      width: 13px; height: 13px; border-radius: 50%;
+      background: rgba(255,255,255,0.6);
+      transition: transform 0.2s, background 0.2s;
+    }
+    [data-theme="dark"] .toggle-thumb {
+      transform: translateX(13px); background: #fff;
+    }
+
+    /* ── Layout ──────────────────────────────────────────────────────── */
     .container {
       max-width: 820px;
       margin: 0 auto;
@@ -98,370 +181,333 @@
     }
 
     .intro {
-      margin: 40px auto 0;
+      margin: 36px auto 0;
       max-width: 820px;
       padding: 0 24px;
-      color: var(--text-muted);
+      color: var(--on-surface-var);
       font-size: 15px;
       line-height: 1.8;
     }
 
-    /* ── TOC ─────────────────────────────────────────────── */
+    /* ── TOC ─────────────────────────────────────────────────────────── */
     .toc {
       background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 14px;
+      border: 1px solid var(--outline-var);
+      border-radius: 16px;
       padding: 24px 28px;
-      margin: 36px auto 0;
-      max-width: 820px;
-      margin-left: auto;
-      margin-right: auto;
+      margin: 32px auto 0;
       width: calc(100% - 48px);
       max-width: 820px;
+      box-shadow: 0 2px 12px var(--shadow);
+      transition: background 0.25s, border-color 0.25s;
     }
 
     .toc h2 {
-      font-size: 13px;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 1.2px;
-      color: var(--accent);
-      margin-bottom: 14px;
+      font-size: 11px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 1.5px;
+      color: var(--secondary);
+      margin-bottom: 16px;
     }
 
     .toc ol {
-      columns: 2;
-      column-gap: 32px;
-      list-style: none;
-      counter-reset: toc;
+      columns: 2; column-gap: 32px;
+      list-style: none; counter-reset: toc;
     }
 
-    @media (max-width: 560px) {
-      .toc ol { columns: 1; }
-    }
+    @media (max-width: 560px) { .toc ol { columns: 1; } }
 
     .toc li {
       counter-increment: toc;
       break-inside: avoid;
-      margin-bottom: 6px;
+      margin-bottom: 7px;
     }
 
     .toc a {
-      color: var(--text-muted);
-      text-decoration: none;
-      font-size: 14px;
-      display: flex;
-      align-items: baseline;
-      gap: 8px;
+      color: var(--on-surface-var);
+      text-decoration: none; font-size: 13.5px;
+      display: flex; align-items: baseline; gap: 8px;
       transition: color 0.15s;
     }
 
     .toc a::before {
       content: counter(toc, decimal-leading-zero) ".";
-      color: var(--accent-dim);
-      font-size: 12px;
-      font-weight: 600;
-      flex-shrink: 0;
+      color: var(--secondary);
+      font-size: 11px; font-weight: 700; flex-shrink: 0;
     }
 
-    .toc a:hover { color: var(--accent); }
+    .toc a:hover { color: var(--on-surface); }
 
-    /* ── Sections ────────────────────────────────────────── */
-    section {
-      margin-top: 48px;
-    }
+    /* ── Sections ────────────────────────────────────────────────────── */
+    section { margin-top: 48px; scroll-margin-top: 24px; }
 
     .section-header {
-      display: flex;
-      align-items: center;
-      gap: 14px;
+      display: flex; align-items: center; gap: 14px;
       margin-bottom: 20px;
     }
 
     .section-number {
-      background: var(--accent);
-      color: #fff;
-      font-size: 13px;
-      font-weight: 700;
-      width: 32px;
-      height: 32px;
-      border-radius: 8px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      background: var(--primary);
+      color: #fff; font-size: 13px; font-weight: 700;
+      width: 32px; height: 32px; border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
       flex-shrink: 0;
+      transition: background 0.25s;
     }
 
     section h2 {
-      font-size: 20px;
-      font-weight: 700;
-      color: #E8E5FF;
+      font-size: 20px; font-weight: 800;
+      color: var(--on-surface); letter-spacing: -0.3px;
     }
 
-    /* ── Sub-sections ────────────────────────────────────── */
+    /* ── Subsections ─────────────────────────────────────────────────── */
     .subsection {
       background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 12px;
+      border: 1px solid var(--outline-var);
+      border-radius: 14px;
       padding: 20px 24px;
       margin-bottom: 12px;
+      box-shadow: 0 1px 6px var(--shadow);
+      transition: background 0.25s, border-color 0.25s;
     }
 
     .subsection h3 {
-      font-size: 14px;
-      font-weight: 600;
-      color: var(--accent);
-      margin-bottom: 12px;
-      letter-spacing: 0.3px;
+      font-size: 13.5px; font-weight: 700;
+      color: var(--secondary);
+      margin-bottom: 12px; letter-spacing: 0.2px;
     }
 
-    /* ── Lists ───────────────────────────────────────────── */
-    ul, ol {
-      padding-left: 20px;
-    }
+    /* ── Lists ───────────────────────────────────────────────────────── */
+    ul, ol { padding-left: 20px; }
+    li { color: var(--on-surface-var); margin-bottom: 6px; }
+    li strong { color: var(--on-surface); }
 
-    li {
-      color: var(--text);
-      margin-bottom: 6px;
-    }
-
-    li strong { color: #E8E5FF; }
-
-    /* ── Callout boxes ───────────────────────────────────── */
+    /* ── Callout boxes ───────────────────────────────────────────────── */
     .callout {
-      border-left: 3px solid var(--note-border);
-      background: var(--note-bg);
+      border-left: 3px solid var(--primary);
+      background: var(--surface-var);
       border-radius: 0 10px 10px 0;
       padding: 14px 18px;
       margin: 16px 0;
       font-size: 14px;
-      color: #a0d8d4;
+      color: var(--on-surface-var);
+      transition: background 0.25s;
     }
 
     .callout.warning {
-      border-left-color: #6adc4f;
-      background: var(--warn-bg);
-      color: var(--warn-text);
+      border-left-color: var(--secondary);
+      background: var(--secondary-bg);
+      color: var(--secondary-text);
     }
 
-    .callout strong { color: #fff; }
+    .callout.danger {
+      border-left-color: var(--error);
+      background: var(--error-bg);
+      color: var(--error-text);
+    }
 
-    /* ── Data table ──────────────────────────────────────── */
+    .callout.success {
+      border-left-color: var(--green);
+      background: var(--green-bg);
+      color: var(--green-text);
+    }
+
+    .callout strong { color: var(--on-surface); }
+    .callout.warning strong { color: var(--secondary-text); }
+    .callout.danger strong  { color: var(--error-text); }
+    .callout.success strong { color: var(--green-text); }
+
+    /* ── Data table ──────────────────────────────────────────────────── */
     .table-wrap {
       overflow-x: auto;
-      border-radius: 12px;
-      border: 1px solid var(--border);
+      border-radius: 14px;
+      border: 1px solid var(--outline-var);
       margin: 16px 0;
+      box-shadow: 0 1px 6px var(--shadow);
     }
 
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 14px;
-    }
+    table { width: 100%; border-collapse: collapse; font-size: 14px; }
 
-    thead tr {
-      background: var(--surface2);
-    }
+    thead tr { background: var(--primary); }
 
     th {
-      padding: 12px 16px;
-      text-align: left;
-      font-size: 12px;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.8px;
-      color: var(--accent);
-      border-bottom: 1px solid var(--border);
+      padding: 11px 16px; text-align: left;
+      font-size: 11.5px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.8px;
+      color: #fff;
     }
+    th:first-child { border-radius: 13px 0 0 0; }
+    th:last-child  { border-radius: 0 13px 0 0; }
 
     td {
       padding: 12px 16px;
-      border-bottom: 1px solid var(--border);
-      color: var(--text);
-      vertical-align: top;
-      line-height: 1.5;
+      border-bottom: 1px solid var(--outline-var);
+      color: var(--on-surface-var);
+      vertical-align: top; line-height: 1.5;
+      transition: background 0.25s;
     }
 
     tbody tr:last-child td { border-bottom: none; }
-    tbody tr:nth-child(even) { background: rgba(255,255,255,0.02); }
-    td strong { color: #E8E5FF; }
+    tbody tr:nth-child(even) td { background: var(--surface-var); }
+    td strong { color: var(--on-surface); }
 
-    /* ── Deletion box ────────────────────────────────────── */
-    .deletion-box {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      padding: 28px 28px;
-      margin-top: 4px;
+    /* ── Permission chips ────────────────────────────────────────────── */
+    .perm-list {
+      list-style: none; padding: 0; margin-top: 8px;
+      display: flex; flex-direction: column; gap: 8px;
     }
-
-    .email-card {
-      background: #16142A;
-      border: 1px solid var(--accent-dim);
-      border-radius: 10px;
-      padding: 18px 22px;
-      margin: 20px 0;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
+    .perm-list li {
+      display: flex; align-items: flex-start; gap: 12px;
+      background: var(--surface-var);
+      border: 1px solid var(--outline-var);
+      border-radius: 10px; padding: 12px 14px;
+      transition: background 0.25s;
     }
-
-    .email-row {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      font-size: 15px;
+    .perm-icon {
+      font-size: 18px; line-height: 1.4; flex-shrink: 0;
     }
-
-    .email-label {
-      font-size: 12px;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.8px;
-      color: var(--text-faint);
-      width: 60px;
-      flex-shrink: 0;
+    .perm-body strong {
+      display: block; font-size: 13.5px;
+      color: var(--on-surface); margin-bottom: 2px;
     }
+    .perm-body span { font-size: 13px; color: var(--on-surface-var); }
 
-    .email-value {
-      color: var(--accent);
-      font-weight: 600;
-    }
-
-    code {
-      background: #16142A;
-      border: 1px solid var(--border);
-      border-radius: 5px;
-      padding: 2px 8px;
-      font-size: 13px;
-      font-family: 'Cascadia Code', 'Fira Code', 'Courier New', monospace;
-      color: var(--accent);
-    }
-
-    /* Ordered list in section 4 */
-    .numbered-list {
-      list-style: none;
-      counter-reset: nl;
-      padding: 0;
-    }
-
+    /* ── Numbered list ───────────────────────────────────────────────── */
+    .numbered-list { list-style: none; counter-reset: nl; padding: 0; }
     .numbered-list li {
       counter-increment: nl;
-      display: flex;
-      align-items: flex-start;
-      gap: 12px;
-      margin-bottom: 10px;
+      display: flex; align-items: flex-start; gap: 12px;
+      margin-bottom: 10px; color: var(--on-surface-var);
     }
-
     .numbered-list li::before {
       content: counter(nl);
-      background: var(--surface2);
-      color: var(--accent);
-      border: 1px solid var(--border);
-      border-radius: 6px;
-      min-width: 26px;
-      height: 26px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 13px;
-      font-weight: 700;
-      margin-top: 1px;
-      flex-shrink: 0;
+      background: var(--primary); color: #fff;
+      border-radius: 6px; min-width: 26px; height: 26px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 12px; font-weight: 700;
+      margin-top: 1px; flex-shrink: 0;
+      transition: background 0.25s;
     }
 
-    /* ── "We do not" list ───────────────────────────────── */
-    .dont-list {
-      list-style: none;
-      padding: 0;
-      margin-top: 14px;
-    }
-
+    /* ── "We do not" list ────────────────────────────────────────────── */
+    .dont-list { list-style: none; padding: 0; margin-top: 14px; }
     .dont-list li {
-      padding-left: 22px;
-      position: relative;
-      color: var(--text-muted);
-      margin-bottom: 6px;
+      padding-left: 22px; position: relative;
+      color: var(--on-surface-var); margin-bottom: 6px;
     }
-
     .dont-list li::before {
-      content: '✕';
-      position: absolute;
-      left: 0;
-      color: #e06c75;
-      font-size: 12px;
-      font-weight: 700;
-      top: 3px;
+      content: '✕'; position: absolute; left: 0;
+      color: var(--error); font-size: 11px;
+      font-weight: 700; top: 4px;
     }
 
-    /* ── Footer ──────────────────────────────────────────── */
+    /* ── Contact / deletion card ─────────────────────────────────────── */
+    .contact-card {
+      background: var(--surface);
+      border: 1px solid var(--outline-var);
+      border-radius: 14px;
+      padding: 22px 24px;
+      margin: 16px 0;
+      max-width: 460px;
+      box-shadow: 0 1px 6px var(--shadow);
+      transition: background 0.25s, border-color 0.25s;
+    }
+
+    .contact-row {
+      display: flex; align-items: center; gap: 12px;
+      font-size: 14.5px; margin-bottom: 10px;
+    }
+    .contact-row:last-child { margin-bottom: 0; }
+    .contact-label {
+      font-size: 11px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.8px;
+      color: var(--outline); width: 60px; flex-shrink: 0;
+    }
+    .contact-value { color: var(--secondary); font-weight: 700; }
+
+    code {
+      background: var(--surface-var);
+      border: 1px solid var(--outline-var);
+      border-radius: 5px; padding: 2px 7px;
+      font-size: 13px;
+      font-family: 'Cascadia Code', 'Fira Code', 'Courier New', monospace;
+      color: var(--on-surface);
+      transition: background 0.25s;
+    }
+
+    /* ── Footer ──────────────────────────────────────────────────────── */
     footer {
       margin-top: 64px;
-      border-top: 1px solid var(--border);
+      border-top: 1px solid var(--outline-var);
       padding: 32px 24px;
       text-align: center;
-      color: var(--text-faint);
-      font-size: 13px;
-      line-height: 1.8;
+      color: var(--outline);
+      font-size: 13px; line-height: 1.8;
       max-width: 820px;
-      margin-left: auto;
-      margin-right: auto;
+      margin-left: auto; margin-right: auto;
+      transition: border-color 0.25s;
     }
 
-    footer a {
-      color: var(--accent-dim);
-      text-decoration: none;
+    footer a { color: var(--secondary); text-decoration: none; }
+    footer a:hover { text-decoration: underline; }
+
+    @media (max-width: 640px) {
+      header h1 { font-size: 22px; }
+      #theme-toggle .toggle-label { display: none; }
+      #theme-toggle { padding: 7px 9px; gap: 4px; }
     }
-
-    footer a:hover { color: var(--accent); }
-
-    a { color: var(--accent); }
-    a:hover { text-decoration: underline; }
-
-    p { margin-bottom: 12px; }
-    p:last-child { margin-bottom: 0; }
   </style>
 </head>
 <body>
 
-<!-- ══ Header ════════════════════════════════════════════════════════════════ -->
+<!-- ══ Header ═══════════════════════════════════════════════════════════════ -->
 <header>
-  <div class="logo-mark">
-    <div class="logo-icon">RL</div>
-    <span class="logo-name">ResortLog</span>
+  <button id="theme-toggle" onclick="toggleTheme()" aria-label="Toggle dark mode">
+    <span class="toggle-icon" id="toggle-icon">☀️</span>
+    <span class="toggle-label" id="toggle-label">Light Mode</span>
+    <span class="toggle-track"><span class="toggle-thumb"></span></span>
+  </button>
+
+  <div class="header-inner">
+    <div class="logo-mark">
+      <img src="./icon.png" alt="ResortLog" class="logo-icon" />
+      <span class="logo-name">ResortLog</span>
+    </div>
+    <span class="company-name">Sahoo Soft Technologies</span>
+    <h1>Privacy Policy</h1>
+    <span class="updated-badge">Last updated: March 18, 2026</span>
   </div>
-  <h1>Privacy Policy</h1>
-  <span class="updated-badge">Last updated: March 18, 2026</span>
 </header>
 
-<!-- ══ Intro ═════════════════════════════════════════════════════════════════ -->
+<!-- ══ Intro ════════════════════════════════════════════════════════════════ -->
 <p class="intro">
-  ResortLog is a hotel and resort management application designed for property owners and managers
-  to manage bookings, guests, rooms, and billing. This Privacy Policy explains what information we
-  collect, how we use it, and your rights regarding your data.
+  ResortLog is a hotel and resort management application developed by <strong>Sahoo Soft Technologies</strong>,
+  designed for property owners and managers to manage bookings, guests, rooms, and billing.
+  This Privacy Policy explains what information we collect, how we use it, and your rights regarding your data.
 </p>
 
-<!-- ══ TOC ═══════════════════════════════════════════════════════════════════ -->
+<!-- ══ TOC ══════════════════════════════════════════════════════════════════ -->
 <div class="toc container">
   <h2>Contents</h2>
   <ol>
     <li><a href="#s1">Who This Policy Applies To</a></li>
     <li><a href="#s2">Information We Collect</a></li>
-    <li><a href="#s3">How We Store Your Data</a></li>
-    <li><a href="#s4">How We Use Your Data</a></li>
-    <li><a href="#s5">Data Sharing</a></li>
-    <li><a href="#s6">Data Retention</a></li>
-    <li><a href="#s7">Your Rights</a></li>
-    <li><a href="#s8">Data Deletion Requests</a></li>
-    <li><a href="#s9">Children's Privacy</a></li>
-    <li><a href="#s10">Security</a></li>
-    <li><a href="#s11">Changes to This Policy</a></li>
-    <li><a href="#s12">Contact Us</a></li>
+    <li><a href="#s3">App Permissions</a></li>
+    <li><a href="#s4">How We Store Your Data</a></li>
+    <li><a href="#s5">How We Use Your Data</a></li>
+    <li><a href="#s6">Data Sharing</a></li>
+    <li><a href="#s7">Data Retention</a></li>
+    <li><a href="#s8">Your Rights</a></li>
+    <li><a href="#s9">Data Deletion Requests</a></li>
+    <li><a href="#s10">Children's Privacy</a></li>
+    <li><a href="#s11">Security</a></li>
+    <li><a href="#s12">Grievance Officer</a></li>
+    <li><a href="#s13">Governing Law</a></li>
+    <li><a href="#s14">Changes to This Policy</a></li>
+    <li><a href="#s15">Contact Us</a></li>
   </ol>
 </div>
 
-<!-- ══ Sections ══════════════════════════════════════════════════════════════ -->
+<!-- ══ Sections ═════════════════════════════════════════════════════════════ -->
 <div class="container">
 
   <!-- 1 -->
@@ -490,7 +536,7 @@
       <ul>
         <li>Email address</li>
         <li>Password (stored as a secure hash via Firebase Authentication — we never store plain-text passwords)</li>
-        <li>Authentication tokens (stored locally on-device via AsyncStorage for persistent login sessions)</li>
+        <li>Authentication tokens (stored locally on-device for persistent login sessions)</li>
       </ul>
     </div>
 
@@ -498,10 +544,12 @@
       <h3>2.2 — Property Information</h3>
       <p>Information you provide about your property:</p>
       <ul>
-        <li>Property name, address, city, state, PIN code, country</li>
+        <li>Property name, tagline, address, city, state, PIN code</li>
         <li>Contact phone number and email address</li>
-        <li>GST number (if applicable)</li>
+        <li>GSTIN and PAN (for GST-compliant invoice generation)</li>
+        <li>Property logo image</li>
         <li>Check-in / check-out times and other property-level settings</li>
+        <li>Configurable add-on services and billing preferences</li>
       </ul>
     </div>
 
@@ -512,9 +560,8 @@
         <li>Room number, name, type (Standard, Deluxe, Suite, Cottage, etc.)</li>
         <li>Floor, bed type, capacity (adults and children)</li>
         <li>Base price per night and weekend price</li>
-        <li>Amenities list</li>
-        <li>Room photos (URLs only; images are stored in Firebase Storage)</li>
-        <li>Room description</li>
+        <li>Amenities list and description</li>
+        <li>Room-level check-in and check-out times</li>
       </ul>
     </div>
 
@@ -523,17 +570,20 @@
       <p>Guest details entered by property operators during booking or check-in:</p>
       <ul>
         <li>Full name, phone number, WhatsApp number, email address</li>
-        <li>Date of birth, gender</li>
+        <li>Date of birth, gender, nationality</li>
         <li>Full address (street, city, state, PIN code)</li>
-        <li>Nationality</li>
         <li>Government-issued ID proof type (Aadhaar, Passport, Driving Licence, Voter ID, PAN) and ID number</li>
-        <li>Photographs of ID documents (front and back) — stored in Firebase Storage</li>
-        <li>Guest tags (VIP, Repeat, Corporate, etc.)</li>
+        <li>Photographs of ID documents (front and back images) — stored locally on-device</li>
+        <li><strong>Face photograph</strong> of the guest — optionally captured during check-in for identification purposes</li>
+        <li><strong>Emergency contact</strong> name and phone number — collected during check-in</li>
+        <li><strong>Vehicle details</strong> (e.g. registration number) — optionally collected during check-in</li>
+        <li>Guest tags (VIP, Repeat, Corporate, Blacklisted)</li>
+        <li>Internal notes added by the property operator</li>
       </ul>
       <div class="callout">
         <strong>Note:</strong> Guest information is entered solely by the property operator for the purpose
-        of guest registration and legal compliance with local hospitality regulations. ResortLog does not
-        independently collect guest data directly from guests.
+        of guest registration and legal compliance with local hospitality regulations (Form C requirements).
+        ResortLog does not independently collect guest data directly from guests.
       </div>
     </div>
 
@@ -541,13 +591,13 @@
       <h3>2.5 — Booking &amp; Stay Information</h3>
       <p>Records of bookings created in the app:</p>
       <ul>
-        <li>Check-in and check-out dates</li>
+        <li>Check-in and check-out dates and actual arrival/departure timestamps</li>
         <li>Number of adults and children</li>
-        <li>Room assigned</li>
+        <li>Room assigned and booking reference number</li>
         <li>Booking status (Pending, Confirmed, Checked-In, Checked-Out, Cancelled, No-Show)</li>
         <li>Booking source (Walk-in, Phone, OTA)</li>
+        <li>Add-on services added to the stay</li>
         <li>Special requests and internal notes</li>
-        <li>Booking reference number</li>
       </ul>
     </div>
 
@@ -555,15 +605,17 @@
       <h3>2.6 — Billing &amp; Payment Information</h3>
       <p>Financial records associated with bookings:</p>
       <ul>
-        <li>Room charges, additional charges, taxes (GST)</li>
+        <li>Room charges, add-on charges, fees (early check-in / late checkout)</li>
+        <li>GST amounts (CGST, SGST) if billing is enabled</li>
+        <li>Discounts applied and reasons</li>
         <li>Total amount, amount paid, balance due</li>
         <li>Payment mode (Cash, UPI, Card, Bank Transfer, Cheque)</li>
-        <li>Payment timestamps and notes</li>
+        <li>Payment timestamps</li>
       </ul>
       <div class="callout warning">
         <strong>Important:</strong> ResortLog does <strong>not</strong> collect, store, or transmit full
-        credit/debit card numbers, CVV codes, or bank account numbers. Payment mode labels (e.g. "Card",
-        "UPI") are stored for record-keeping only.
+        credit/debit card numbers, CVV codes, UPI PINs, or bank account numbers. Payment mode labels
+        (e.g. "Card", "UPI") are stored for record-keeping only.
       </div>
     </div>
 
@@ -572,34 +624,75 @@
       <ul>
         <li>Device type and operating system (Android)</li>
         <li>App version</li>
-        <li>Crash logs and error data (used to improve app stability)</li>
+        <li>Crash logs and error data (used internally to improve app stability — not shared with third parties)</li>
       </ul>
     </div>
   </section>
 
-  <!-- 3 -->
+  <!-- 3 — NEW: App Permissions -->
   <section id="s3">
     <div class="section-header">
       <div class="section-number">3</div>
+      <h2>App Permissions</h2>
+    </div>
+    <p>ResortLog requests the following Android device permissions. Each permission is used only for its stated purpose:</p>
+    <ul class="perm-list">
+      <li>
+        <span class="perm-icon">📷</span>
+        <div class="perm-body">
+          <strong>Camera</strong>
+          <span>Used during check-in to capture photographs of guest ID documents (front and back) and an optional face photo of the guest. Also used to capture the property logo image.</span>
+        </div>
+      </li>
+      <li>
+        <span class="perm-icon">🖼️</span>
+        <div class="perm-body">
+          <strong>Media Library / Photo Gallery (Read)</strong>
+          <span>Allows selecting images from the device gallery as an alternative to the camera when capturing ID documents, guest photos, or the property logo.</span>
+        </div>
+      </li>
+      <li>
+        <span class="perm-icon">💾</span>
+        <div class="perm-body">
+          <strong>Media Library / Storage (Write)</strong>
+          <span>Used when you choose to save a generated invoice PDF or a guest ID image to your device's storage or gallery.</span>
+        </div>
+      </li>
+      <li>
+        <span class="perm-icon">🌐</span>
+        <div class="perm-body">
+          <strong>Internet Access</strong>
+          <span>Required for Firebase Authentication (login/register) and for syncing property data to the cloud.</span>
+        </div>
+      </li>
+    </ul>
+    <div class="callout success">
+      <strong>No unnecessary permissions.</strong>
+      ResortLog does not request access to your contacts, location, microphone, call logs, or SMS.
+      All permissions are requested only when the relevant feature is first used.
+    </div>
+  </section>
+
+  <!-- 4 -->
+  <section id="s4">
+    <div class="section-header">
+      <div class="section-number">4</div>
       <h2>How We Store Your Data</h2>
     </div>
-    <p>ResortLog uses a <strong>hybrid local + cloud storage model</strong>:</p>
+    <p>ResortLog uses a <strong>local-first storage model</strong>. All data is stored on your device by default. Cloud sync via Firebase is used for account authentication:</p>
     <div class="table-wrap">
       <table>
         <thead>
-          <tr>
-            <th>Data Type</th>
-            <th>Where Stored</th>
-          </tr>
+          <tr><th>Data Type</th><th>Where Stored</th></tr>
         </thead>
         <tbody>
           <tr>
-            <td>Rooms, guests, bookings, payments, properties</td>
-            <td><strong>SQLite on-device</strong> (primary) and <strong>Firebase Firestore</strong> (cloud sync)</td>
+            <td>Rooms, guests, bookings, payments, property settings</td>
+            <td><strong>SQLite database on-device</strong> (primary, offline-first)</td>
           </tr>
           <tr>
-            <td>ID document photos, room photos</td>
-            <td><strong>Firebase Storage</strong> (Google Cloud)</td>
+            <td>ID document photos, guest photos, property logo</td>
+            <td><strong>On-device local storage</strong> (file system)</td>
           </tr>
           <tr>
             <td>Login credentials / authentication</td>
@@ -607,22 +700,26 @@
           </tr>
           <tr>
             <td>Session tokens</td>
-            <td><strong>On-device only</strong> (AsyncStorage)</td>
+            <td><strong>On-device only</strong> (AsyncStorage — never leaves the device)</td>
+          </tr>
+          <tr>
+            <td>Generated invoice PDFs</td>
+            <td><strong>On-device</strong> (temporary, in app cache; saved to gallery only on your explicit request)</td>
           </tr>
         </tbody>
       </table>
     </div>
     <p>
-      All cloud data is stored in Firebase (Google Cloud) and is subject to
-      <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Google's Privacy Policy</a>
-      and Firebase's security standards. Data is encrypted in transit (TLS/HTTPS) and at rest.
+      Authentication is handled by Firebase (Google Cloud) and is subject to
+      <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Google's Privacy Policy</a>.
+      All data transmitted to Firebase is encrypted in transit via TLS/HTTPS.
     </p>
   </section>
 
-  <!-- 4 -->
-  <section id="s4">
+  <!-- 5 -->
+  <section id="s5">
     <div class="section-header">
-      <div class="section-number">4</div>
+      <div class="section-number">5</div>
       <h2>How We Use Your Data</h2>
     </div>
     <p>We use the information collected to:</p>
@@ -630,27 +727,15 @@
       <li><div><strong>Provide the service</strong> — manage rooms, bookings, guests, and billing for your property.</div></li>
       <li><div><strong>Authentication</strong> — verify your identity and keep your account secure.</div></li>
       <li><div><strong>Reporting</strong> — generate occupancy reports, revenue summaries, and billing statements for your own use.</div></li>
-      <li><div><strong>PDF generation</strong> — produce invoices and billing documents using booking and payment data stored locally.</div></li>
+      <li><div><strong>Invoice generation</strong> — produce GST-compliant PDF invoices using booking and payment data stored locally on-device.</div></li>
       <li><div><strong>App improvement</strong> — use anonymised crash and error logs to diagnose and fix bugs.</div></li>
     </ol>
     <p style="margin-top:16px">We do <strong>not</strong>:</p>
     <ul class="dont-list">
       <li>Sell, rent, or trade your data or your guests' data to third parties.</li>
       <li>Use guest data for advertising or marketing purposes.</li>
-      <li>Share data with any third party except as required for Firebase/Google infrastructure (storage and authentication).</li>
-    </ul>
-  </section>
-
-  <!-- 5 -->
-  <section id="s5">
-    <div class="section-header">
-      <div class="section-number">5</div>
-      <h2>Data Sharing</h2>
-    </div>
-    <p>We do not share personal data with third parties except:</p>
-    <ul>
-      <li><strong>Firebase / Google:</strong> For authentication, cloud database, and file storage services.</li>
-      <li><strong>Legal obligations:</strong> If required by applicable law, court order, or government authority.</li>
+      <li>Profile guests or property operators for commercial use.</li>
+      <li>Share data with any third party except as described in Section 6 below.</li>
     </ul>
   </section>
 
@@ -658,12 +743,13 @@
   <section id="s6">
     <div class="section-header">
       <div class="section-number">6</div>
-      <h2>Data Retention</h2>
+      <h2>Data Sharing</h2>
     </div>
+    <p>We do not share personal data with third parties except in the following limited circumstances:</p>
     <ul>
-      <li><strong>Account data:</strong> Retained as long as your account is active.</li>
-      <li><strong>Booking and guest records:</strong> Retained as long as you maintain your account, or until you request deletion.</li>
-      <li><strong>Deleted records:</strong> When you delete a record within the app, it is removed from local storage immediately. Cloud copies (Firestore/Firebase Storage) are deleted within <strong>30 days</strong>.</li>
+      <li><strong>Firebase / Google:</strong> For authentication services. Only email address and authentication tokens are shared with Firebase. Booking, guest, and payment data is stored locally on your device and is not sent to Firebase.</li>
+      <li><strong>WhatsApp / Share Sheet:</strong> When you tap <em>Share Invoice</em> in the checkout screen, the generated PDF is shared via Android's share sheet to apps of your choice (e.g. WhatsApp, email). This sharing is initiated entirely by you. Sahoo Soft Technologies does not transmit or receive the shared file — it goes directly from your device to the recipient app.</li>
+      <li><strong>Legal obligations:</strong> If required by applicable law, court order, or government authority in India.</li>
     </ul>
   </section>
 
@@ -671,15 +757,13 @@
   <section id="s7">
     <div class="section-header">
       <div class="section-number">7</div>
-      <h2>Your Rights</h2>
+      <h2>Data Retention</h2>
     </div>
-    <p>Depending on your jurisdiction, you may have the right to:</p>
     <ul>
-      <li><strong>Access</strong> the personal data we hold about you or your guests.</li>
-      <li><strong>Correct</strong> inaccurate or incomplete data.</li>
-      <li><strong>Delete</strong> your account and all associated data.</li>
-      <li><strong>Export</strong> your data (available via CSV export in the Reports screen).</li>
-      <li><strong>Withdraw consent</strong> at any time by discontinuing use of the app.</li>
+      <li><strong>Account data:</strong> Retained in Firebase as long as your account is active.</li>
+      <li><strong>Booking, guest, and room records:</strong> Stored on-device indefinitely until you delete them within the app or uninstall the app.</li>
+      <li><strong>Records deleted within the app:</strong> Removed from local storage immediately upon deletion.</li>
+      <li><strong>Account deletion:</strong> Upon receiving a valid data deletion request (see Section 9), all associated data is permanently deleted within <strong>7 business days</strong>.</li>
     </ul>
   </section>
 
@@ -687,33 +771,18 @@
   <section id="s8">
     <div class="section-header">
       <div class="section-number">8</div>
-      <h2>Data Deletion Requests</h2>
+      <h2>Your Rights</h2>
     </div>
-    <div class="deletion-box">
-      <p>
-        If you wish to permanently delete your account and all associated data (including guest records,
-        bookings, room data, and uploaded documents), please send an email to:
-      </p>
-      <div class="email-card">
-        <div class="email-row">
-          <span class="email-label">Email</span>
-          <span class="email-value">sahoodmail@gmail.com</span>
-        </div>
-        <div class="email-row">
-          <span class="email-label">Subject</span>
-          <code>ResortLOG Data Deletion</code>
-        </div>
-      </div>
-      <p>Please include the following in your email:</p>
-      <ul>
-        <li>The email address registered with your ResortLog account</li>
-        <li>Your property name (for verification)</li>
-      </ul>
-      <div class="callout" style="margin-top:16px">
-        We will process your request within <strong>7 business days</strong> and send a confirmation
-        once deletion is complete. Please note that deletion is <strong>irreversible</strong> — all data
-        will be permanently removed from our servers and cannot be recovered.
-      </div>
+    <p>As a property operator using ResortLog, you have the following rights:</p>
+    <ul>
+      <li><strong>Access</strong> — view all data stored in the app at any time within the app itself.</li>
+      <li><strong>Correction</strong> — edit any inaccurate or incomplete guest, booking, or property data directly within the app.</li>
+      <li><strong>Deletion</strong> — delete individual records (guests, bookings) within the app, or request full account deletion (see Section 9).</li>
+      <li><strong>Export</strong> — export your booking and guest data as CSV files using the Reports screen.</li>
+      <li><strong>Withdrawal of consent</strong> — discontinue use of the app at any time. As data is stored locally, uninstalling the app removes all local data.</li>
+    </ul>
+    <div class="callout">
+      <strong>Guest rights:</strong> If a guest requests access to or deletion of their data, the property operator is responsible for fulfilling that request using the tools available within the app (edit/delete guest profile).
     </div>
   </section>
 
@@ -721,31 +790,48 @@
   <section id="s9">
     <div class="section-header">
       <div class="section-number">9</div>
-      <h2>Children's Privacy</h2>
+      <h2>Data Deletion Requests</h2>
     </div>
     <p>
-      ResortLog is intended for use by adult property operators and managers. We do not knowingly collect
-      information from children under the age of 13. If you believe a child's information has been entered
-      into the app, please contact us using the data deletion email above.
+      If you wish to permanently delete your account and all associated data, please send an email to:
     </p>
+    <div class="contact-card">
+      <div class="contact-row">
+        <span class="contact-label">Email</span>
+        <span class="contact-value">sahoodmail@gmail.com</span>
+      </div>
+      <div class="contact-row">
+        <span class="contact-label">Subject</span>
+        <code>ResortLog Data Deletion Request</code>
+      </div>
+    </div>
+    <p>Please include the following in your email:</p>
+    <ul>
+      <li>The email address registered with your ResortLog account</li>
+      <li>Your property name (for verification)</li>
+    </ul>
+    <div class="callout warning" style="margin-top:16px">
+      We will process your request within <strong>7 business days</strong> and send a confirmation
+      once deletion is complete. Deletion is <strong>irreversible</strong> — all data will be permanently
+      removed from Firebase and cannot be recovered.
+    </div>
   </section>
 
   <!-- 10 -->
   <section id="s10">
     <div class="section-header">
       <div class="section-number">10</div>
-      <h2>Security</h2>
+      <h2>Children's Privacy</h2>
     </div>
-    <p>We take reasonable steps to protect your data, including:</p>
-    <ul>
-      <li>HTTPS/TLS encryption for all data transmitted to/from Firebase.</li>
-      <li>Firebase Security Rules to restrict access to your property's data only.</li>
-      <li>Secure authentication via Firebase Authentication (email/password with secure hashing).</li>
-      <li>Local on-device storage is not accessible by other apps on the device.</li>
-    </ul>
-    <p style="margin-top:12px; color: var(--text-muted);">
-      However, no method of electronic storage or transmission over the internet is 100% secure.
-      We encourage you to use a strong password and keep your login credentials confidential.
+    <p>
+      ResortLog is intended for use by adult property operators and managers (18 years and above).
+      We do not knowingly collect personal information from children under the age of 13.
+      Guest records may include children's details (e.g. number of children in a booking) as required
+      for hospitality management — these are entered by the adult property operator and not by the child.
+    </p>
+    <p>
+      If you believe a child's personal information has been improperly entered, please contact us
+      using the deletion email in Section 9.
     </p>
   </section>
 
@@ -753,48 +839,139 @@
   <section id="s11">
     <div class="section-header">
       <div class="section-number">11</div>
+      <h2>Security</h2>
+    </div>
+    <p>We take reasonable steps to protect your data, including:</p>
+    <ul>
+      <li>HTTPS/TLS encryption for all data transmitted to/from Firebase.</li>
+      <li>Firebase Authentication with secure password hashing — plain-text passwords are never stored.</li>
+      <li>Firebase Security Rules to restrict access so only the authenticated property account can read its own data.</li>
+      <li>Local SQLite database is stored in app-private storage — not accessible by other apps on the device.</li>
+      <li>No unnecessary data is transmitted over the network — all operational data (bookings, guests, payments) stays on-device.</li>
+    </ul>
+    <p style="margin-top:12px; color: var(--on-surface-var);">
+      However, no method of electronic storage or internet transmission is 100% secure.
+      We encourage you to use a strong password and keep your login credentials confidential.
+    </p>
+  </section>
+
+  <!-- 12 — NEW: Grievance Officer -->
+  <section id="s12">
+    <div class="section-header">
+      <div class="section-number">12</div>
+      <h2>Grievance Officer</h2>
+    </div>
+    <p>
+      In accordance with the Information Technology (Intermediary Guidelines and Digital Media Ethics Code)
+      Rules, 2021, and applicable Indian data protection regulations, we have appointed a Grievance Officer
+      to address any complaints or concerns regarding the processing of your personal data.
+    </p>
+    <div class="contact-card">
+      <div class="contact-row">
+        <span class="contact-label">Name</span>
+        <span class="contact-value" style="color: var(--on-surface); font-weight:700;">Sahoo Soft Technologies</span>
+      </div>
+      <div class="contact-row">
+        <span class="contact-label">Email</span>
+        <a class="contact-value" href="mailto:sahoodmail@gmail.com">sahoodmail@gmail.com</a>
+      </div>
+      <div class="contact-row">
+        <span class="contact-label">Response</span>
+        <span style="color: var(--on-surface-var); font-size:14px;">Within 30 days of receipt of complaint</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- 13 — NEW: Governing Law -->
+  <section id="s13">
+    <div class="section-header">
+      <div class="section-number">13</div>
+      <h2>Governing Law</h2>
+    </div>
+    <p>
+      This Privacy Policy is governed by and construed in accordance with the laws of India, including
+      the Information Technology Act, 2000 and the Information Technology (Amendment) Act, 2008, and
+      applicable rules thereunder.
+    </p>
+    <p>
+      Any disputes arising under this policy shall be subject to the exclusive jurisdiction of the courts
+      of India.
+    </p>
+  </section>
+
+  <!-- 14 -->
+  <section id="s14">
+    <div class="section-header">
+      <div class="section-number">14</div>
       <h2>Changes to This Policy</h2>
     </div>
     <p>
       We may update this Privacy Policy from time to time. When we do, we will update the
-      "Last updated" date at the top of this page. Continued use of the app after changes
-      constitutes your acceptance of the revised policy.
+      "Last updated" date at the top of this page. We encourage you to review this policy
+      periodically. Continued use of the app after changes constitutes your acceptance of the
+      revised policy.
     </p>
   </section>
 
-  <!-- 12 -->
-  <section id="s12">
+  <!-- 15 -->
+  <section id="s15">
     <div class="section-header">
-      <div class="section-number">12</div>
+      <div class="section-number">15</div>
       <h2>Contact Us</h2>
     </div>
     <p>If you have questions or concerns about this Privacy Policy or how your data is handled, please contact us:</p>
-    <div class="email-card" style="background: var(--surface); border-color: var(--border); max-width: 420px;">
-      <div class="email-row">
-        <span class="email-label">Email</span>
-        <a class="email-value" href="mailto:sahoodmail@gmail.com">sahoodmail@gmail.com</a>
+    <div class="contact-card">
+      <div class="contact-row">
+        <span class="contact-label">Company</span>
+        <span style="color: var(--on-surface); font-weight:700; font-size:14px;">Sahoo Soft Technologies</span>
       </div>
-      <div class="email-row">
-        <span class="email-label">Subject</span>
-        <code>ResortLOG Privacy Inquiry</code>
+      <div class="contact-row">
+        <span class="contact-label">Email</span>
+        <a class="contact-value" href="mailto:sahoodmail@gmail.com">sahoodmail@gmail.com</a>
+      </div>
+      <div class="contact-row">
+        <span class="contact-label">Subject</span>
+        <code>ResortLog Privacy Inquiry</code>
       </div>
     </div>
   </section>
 
 </div><!-- /.container -->
 
-<!-- ══ Footer ════════════════════════════════════════════════════════════════ -->
+<!-- ══ Footer ═══════════════════════════════════════════════════════════════ -->
 <footer>
   <p>
-    ResortLog is a property management tool developed for independent hotel and resort operators.<br>
+    ResortLog is a property management tool developed by <strong>Sahoo Soft Technologies</strong>
+    for independent hotel and resort operators in India.<br>
     This privacy policy is intended to be transparent about data practices and to help operators meet
-    their own obligations under applicable privacy laws.
+    their own obligations under applicable Indian privacy laws.
   </p>
   <p style="margin-top:12px; font-size:12px">
-    &copy; 2026 ResortLog &nbsp;·&nbsp;
+    &copy; 2026 Sahoo Soft Technologies &nbsp;·&nbsp;
     <a href="mailto:sahoodmail@gmail.com">sahoodmail@gmail.com</a>
   </p>
 </footer>
+
+<script>
+  function applyTheme(dark) {
+    document.documentElement.setAttribute('data-theme', dark ? 'dark' : 'light');
+    document.getElementById('toggle-icon').textContent  = dark ? '🌙' : '☀️';
+    document.getElementById('toggle-label').textContent = dark ? 'Dark Mode' : 'Light Mode';
+  }
+
+  function toggleTheme() {
+    const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+    const next = !isDark;
+    applyTheme(next);
+    try { localStorage.setItem('rl-pp-theme', next ? 'dark' : 'light'); } catch(e) {}
+  }
+
+  (function() {
+    let saved = 'light';
+    try { saved = localStorage.getItem('rl-pp-theme') || 'light'; } catch(e) {}
+    applyTheme(saved === 'dark');
+  })();
+</script>
 
 </body>
 </html>
